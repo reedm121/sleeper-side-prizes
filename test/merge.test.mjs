@@ -1,6 +1,17 @@
 // Pull merge() out of the built page and exercise the cases that matter.
-import { readFile } from 'node:fs/promises';
-const page = await readFile('public/shortlist.html', 'utf8');
+//
+// The page is built here, into a temporary file, rather than read from public/: a fresh clone
+// has no public/ until `npm run build`, and a test that needs a build first is a test nobody
+// runs.
+import { readFile, mkdtemp, rm } from 'node:fs/promises';
+import { execFileSync } from 'node:child_process';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
+const dir = await mkdtemp(join(tmpdir(), 'shortlist-'));
+const out = join(dir, 'shortlist.html');
+execFileSync(process.execPath, [new URL('../shortlist.js', import.meta.url).pathname, out], { stdio: ['ignore', 'ignore', 'ignore'] });
+const page = await readFile(out, 'utf8');
+await rm(dir, { recursive: true, force: true });
 const js = page.match(/<script id="appjs">([\s\S]*?)<\/script>/)[1];
 const src = js.match(/function merge\(remote\)\{[\s\S]*?\n  \}/)[0];
 
