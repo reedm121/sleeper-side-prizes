@@ -1,0 +1,35 @@
+{
+  "league": "PASTE_YOUR_SLEEPER_LEAGUE_ID_HERE",
+  "name": "My League",
+  "timezone": "America/New_York",
+  "houseLabel": "The House Prizes",
+  "house": [
+    "house_high",
+    "house_closest"
+  ],
+  "prizes": [
+    "house_notdead",
+    "house_unlucky",
+    "house_onmyback",
+    "top_starter",
+    "rec_yd",
+    "pass_yd",
+    "house_forrest",
+    "scrimmage",
+    "house_6god",
+    "house_stickies",
+    "rush_att",
+    "td_lng",
+    "house_bombs_wr",
+    "house_bombs_qb",
+    "house_forrest_cops",
+    "house_bigleg",
+    "fgm_yds",
+    "house_turnover",
+    "house_sack",
+    "house_unsung"
+  ],
+  "custom": {
+    "house_forrest": { "name": "Ground Game", "blurb": "Rushing yards added up across all your starters, quarterback scrambles included" }
+  }
+}

@@ -1,0 +1,126 @@
+name: Weekly report
+
+# Tuesday 09:05 ET. Monday Night Football is long over and Sleeper's stat corrections have
+# settled, so `--latest` will find a genuinely final week. Cron is UTC, hence 13:05.
+#
+# Note for public forks: GitHub disables scheduled workflows on a public repository after 60 days
+# without a commit. The Tuesday push keeps this alive in season; re-enable it each August.
+on:
+  schedule:
+    - cron: '5 13 * * 2'
+  workflow_dispatch:
+    inputs:
+      week:
+        description: 'Week to build (blank = newest finished week)'
+        required: false
+      season:
+        description: 'Season (blank = current)'
+        required: false
+
+concurrency:
+  group: weekly-report
+  cancel-in-progress: false
+
+# Which league: league.json is the source of truth. The LEAGUE_ID repository variable overrides
+# it, so a deploy can be pointed at next season's id without a commit.
+env:
+  LEAGUE_ID: ${{ vars.LEAGUE_ID }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install Pillow
+        run: pip install --quiet Pillow
+
+      # build.js reads league.json (or LEAGUE_ID) itself; this only makes the id visible to the
+      # one step that is not build.js.
+      - name: Resolve the league
+        id: league
+        run: |
+          id="${LEAGUE_ID:-$(node -p "JSON.parse(require('fs').readFileSync('league.json','utf8')).league || ''")}"
+          if [ -z "$id" ]; then echo "No league id in league.json and no LEAGUE_ID variable. Run npm run setup."; exit 1; fi
+          echo "id=$id" >> "$GITHUB_OUTPUT"
+
+      # build.js owns the decision about which week is finished, so assets.py is handed the
+      # answer rather than working it out a second time and possibly disagreeing.
+      - name: Resolve the week
+        id: pick
+        run: |
+          if [ -n "${{ inputs.week }}" ]; then
+            season="${{ inputs.season }}"
+            [ -n "$season" ] || season=$(node build.js --which | cut -d' ' -f1)
+            echo "season=$season" >> "$GITHUB_OUTPUT"
+            echo "week=${{ inputs.week }}" >> "$GITHUB_OUTPUT"
+          else
+            out=$(node build.js --latest --which)
+            if [ -z "$out" ]; then
+              echo "No finished week to build."
+              echo "week=" >> "$GITHUB_OUTPUT"
+            else
+              echo "season=$(echo "$out" | cut -d' ' -f1)" >> "$GITHUB_OUTPUT"
+              echo "week=$(echo "$out" | cut -d' ' -f2)" >> "$GITHUB_OUTPUT"
+            fi
+          fi
+
+      - name: Skip if this week is already committed
+        id: gate
+        if: steps.pick.outputs.week != ''
+        run: |
+          f="weeks/${{ steps.pick.outputs.season }}-week-${{ steps.pick.outputs.week }}.html"
+          if [ -f "$f" ] && [ -z "${{ inputs.week }}" ]; then
+            echo "$f already exists; nothing to do."
+            echo "go=no" >> "$GITHUB_OUTPUT"
+          else
+            echo "go=yes" >> "$GITHUB_OUTPUT"
+          fi
+
+      # Headshots and club marks. Optional by design — if this fails the report still renders,
+      # just without faces, so it must not take the run down with it.
+      - name: Fetch faces and crests
+        if: steps.gate.outputs.go == 'yes'
+        continue-on-error: true
+        run: |
+          python3 assets.py \
+            --season "${{ steps.pick.outputs.season }}" \
+            --week "${{ steps.pick.outputs.week }}" \
+            --league "${{ steps.league.outputs.id }}"
+
+      - name: Build the report
+        if: steps.gate.outputs.go == 'yes'
+        run: |
+          node build.js \
+            --season "${{ steps.pick.outputs.season }}" \
+            --week "${{ steps.pick.outputs.week }}" \
+            --league "${{ steps.league.outputs.id }}"
+
+      # Pushing to main is what triggers the Vercel deploy; there is no deploy hook to keep
+      # in sync and no Vercel token stored here.
+      - name: Commit and push
+        if: steps.gate.outputs.go == 'yes'
+        run: |
+          f="weeks/${{ steps.pick.outputs.season }}-week-${{ steps.pick.outputs.week }}.html"
+          git config user.name  'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+          # wheel.json as well as the page: the build records the week's eligible prizes and
+          # what each would pay there, and the prize board is built from that file. Leaving it
+          # behind means a week the league can spin for that the board never lists.
+          git add "$f" wheel.json
+          if git diff --cached --quiet; then
+            echo "No change."
+          else
+            git commit -m "Week ${{ steps.pick.outputs.week }} report (${{ steps.pick.outputs.season }})"
+            git push
+          fi

@@ -1,0 +1,15 @@
+{
+  "name": "sleeper-side-prizes",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Weekly side-prize leaderboards, a sealed prize wheel and a prize board for any Sleeper fantasy football league.",
+  "scripts": {
+    "setup": "node setup.js",
+    "build": "node site.js",
+    "report": "node build.js",
+    "dev": "node dev.js",
+    "test": "node test/awards.test.mjs && node test/compute.test.mjs && node test/merge.test.mjs && node test/wheel.test.mjs && node test/seal.test.mjs"
+  },
+  "engines": { "node": ">=20" }
+}
