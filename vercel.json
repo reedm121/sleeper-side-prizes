@@ -1,0 +1,32 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "buildCommand": "node site.js",
+  "outputDirectory": "public",
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "headers": [
+    {
+      "source": "/weeks/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=0, s-maxage=86400, stale-while-revalidate=604800"
+        }
+      ]
+    },
+    {
+      "source": "/badges/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=604800, s-maxage=2592000, stale-while-revalidate=2592000"
+        }
+      ]
+    }
+  ],
+  "functions": {
+    "api/*.js": {
+      "includeFiles": "{league.json,wheel.json}"
+    }
+  }
+}

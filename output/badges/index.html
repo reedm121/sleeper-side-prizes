@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>New Ro FFL · Badge Catalog</title>
+<style>
+:root{color-scheme:dark;--bg:#090e18;--panel:#111a29;--line:#263348;--ink:#edf2ff;--muted:#9eacc2;--gold:#ffc93c;--stage:#0d1522}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+button,input,select{font:inherit}
+button,a,input,select{-webkit-tap-highlight-color:transparent}
+button,a{touch-action:manipulation}
+a{color:inherit}
+button{cursor:pointer}
+button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid var(--gold);outline-offset:4px}
+.wrap{max-width:1456px;padding:0 40px 48px;margin:auto}
+header{padding:40px 0 30px;border-bottom:1px solid var(--line)}
+.topline{display:flex;align-items:center;justify-content:space-between;gap:16px}
+.kicker{font-size:11px;letter-spacing:.18em;font-weight:800;text-transform:uppercase;color:var(--gold)}
+.edition{color:var(--muted);font-size:11px;letter-spacing:.13em;text-transform:uppercase}
+h1{font-size:clamp(36px,6vw,72px);font-weight:850;letter-spacing:-.055em;line-height:1.04;margin:22px 0 14px}
+h1 span{color:var(--gold)}
+.lede{max-width:700px;color:var(--muted);font-size:16px;margin:0}
+.meta{display:flex;gap:24px;flex-wrap:wrap;color:var(--muted);font-size:12px;margin-top:24px}
+.meta strong{color:var(--ink)}
+.tools{display:flex;gap:12px;align-items:center;flex-wrap:wrap;padding:24px 0 14px}
+.search{flex:1 1 240px}
+input,select,.surface{background:var(--panel);border:1px solid var(--line);border-radius:7px;color:var(--ink);padding:11px 14px;min-height:46px}
+input{width:100%}
+select{min-width:165px}
+.surface{font-size:13px}
+.caption{display:flex;justify-content:space-between;gap:12px;color:var(--muted);font-size:12px;margin:0 0 18px}
+.grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:14px}
+.card{min-width:0;background:var(--panel);border:1px solid var(--line);border-radius:9px;overflow:hidden;display:flex;flex-direction:column}
+.card[hidden]{display:none}
+.art{position:relative;background:var(--stage);width:100%;padding:20px 26px 15px;border:0;display:grid;place-items:center;color:var(--ink)}
+.art img{display:block;width:100%;aspect-ratio:1;object-fit:contain;transition:transform .16s}
+.art:hover img{transform:scale(1.04)}
+.serial{position:absolute;top:12px;left:12px;font-size:10px;font-weight:750;color:#8493aa;letter-spacing:.06em}
+.card-copy{padding:17px 16px 18px;border-top:1px solid var(--line);flex:1;display:flex;flex-direction:column}
+.family{font-size:9px;letter-spacing:.12em;text-transform:uppercase;font-weight:800;color:var(--accent)}
+h2{font-size:17px;line-height:1.2;letter-spacing:-.02em;margin:8px 0 10px}
+.rule{font-size:12px;line-height:1.55;color:var(--muted);margin:0 0 18px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.card-foot{margin-top:auto;display:flex;align-items:center;justify-content:space-between;gap:8px}
+.origin{font-size:10px;color:var(--muted)}
+.filelink{font-size:11px;text-decoration:none;border-bottom:1px solid var(--line)}
+.filelink:hover{color:var(--gold)}
+.empty{padding:60px 0;text-align:center;color:var(--muted)}
+footer{padding:26px 0 0;margin-top:28px;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;color:var(--muted);font-size:12px}
+footer a{text-underline-offset:3px}
+dialog{padding:0;width:min(860px,calc(100% - 32px));max-height:calc(100dvh - 32px);border:1px solid var(--line);border-radius:12px;background:var(--panel);color:var(--ink);overflow:auto}
+dialog::backdrop{background:rgba(0,0,0,.8)}
+.dialog-top{display:flex;justify-content:space-between;align-items:center;gap:20px;padding:14px 20px;border-bottom:1px solid var(--line)}
+.close{width:36px;height:36px;display:grid;place-items:center;border:1px solid var(--line);border-radius:50%;background:none;color:var(--ink);font-size:22px}
+.detail{display:grid;grid-template-columns:1.1fr 1fr}
+.detail-art{background:var(--stage);display:grid;place-items:center;padding:28px}
+.detail-art img{width:100%;height:auto}
+.detail-copy{padding:30px 26px}
+.detail-copy h2{font-size:28px;margin-bottom:18px}
+.detail-copy p{color:var(--muted);font-size:14px}
+.download{display:inline-block;margin-top:16px;background:var(--gold);color:#171301;font-weight:750;text-decoration:none;padding:12px 18px;border-radius:6px;font-size:13px}
+.sizes{border-top:1px solid var(--line);margin-top:22px;padding-top:16px;display:flex;align-items:end;gap:22px}
+.sizes figure{margin:0;text-align:center}
+.sizes img{display:block;object-fit:contain}
+.sizes figcaption{font-size:10px;color:var(--muted);margin-top:6px}
+body.light-stage{--stage:#eef1f6}
+body.light-stage .serial{color:#57657b}
+@media(min-width:1500px){.art{padding:24px 35px 18px}}
+@media(max-width:1100px){.grid{grid-template-columns:repeat(4,minmax(0,1fr))}.wrap{padding-inline:26px}}
+@media(max-width:820px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}.detail{grid-template-columns:1fr 1fr}}
+@media(max-width:580px){.wrap{padding-inline:16px}header{padding-top:26px}.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.art{padding:20px 16px 12px}.card-copy{padding:13px 12px}.card h2{font-size:15px}.edition{display:none}.caption span:last-child{display:none}.detail{grid-template-columns:1fr}.detail-art img{max-width:220px}.detail-copy{padding:22px}.tools{gap:8px}.search{flex-basis:100%}select{flex:1}.meta{gap:12px}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+@media print{body{background:white;color:#101827}.wrap{padding:0}.tools,.caption,footer,.filelink{display:none}.grid{grid-template-columns:repeat(3,1fr)}.card{break-inside:avoid;border-color:#ccc}.card-copy{border-color:#ccc}.card,.art{background:white}.card h2{color:#101827}.rule,.origin{color:#444}.art{padding:14px 50px}.meta,.lede{color:#444}header{padding:0 0 20px;margin-bottom:20px}h1{font-size:40px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+<div class="topline"><div class="kicker">New Ro FFL / Achievement collection</div><div class="edition">Concept catalog · 2026</div></div>
+<h1>Big weeks.<br><span>Earned badges.</span></h1>
+<p class="lede">A badge for every prize. Flat football-game emblems built around the plays, comebacks, and catastrophes that make a fantasy season.</p>
+<div class="meta"><span><strong>30</strong> awards · <strong>31</strong> badge designs</span><span><strong>17</strong> house prizes</span><span><strong>13</strong> additions</span><span>PNG · transparent backgrounds</span></div>
+</header>
+<main>
+<div class="tools">
+<label class="search"><input id="search" type="search" aria-label="Search award names or rules" placeholder="Find an award, a stat, a moment…" autocomplete="off"></label>
+<select id="family" aria-label="Filter by badge color family"><option value="all">All color families</option><option value="Team">Gold · Team</option><option value="QB">Pink · Quarterback</option><option value="RB">Mint · Running back</option><option value="WR">Cyan · Receiver</option><option value="K">Lavender · Kicker</option><option value="DEF">Orange · Defense</option></select>
+<button id="surface" class="surface" type="button" aria-pressed="false">Light backdrop</button>
+</div>
+<p class="caption"><span id="count" aria-live="polite">31 / 31 badges</span><span>Select a badge for its full rule and size previews</span></p>
+<div class="grid" id="grid"></div>
+<p class="empty" id="empty" hidden>No matching badges. Try another name or color family.</p>
+</main>
+<footer><span>Flat, SVG-like artwork · Individual PNG assets</span><span><a href="catalog-overview.png">Overview</a> · <a href="catalog.json">Award list</a> · <a href="prompts.json">Generation prompts</a> · <a href="README.md">Folder guide</a></span></footer>
+</div>
+<dialog id="preview" aria-labelledby="detail-title">
+<div class="dialog-top"><span class="kicker" id="detail-kicker">Award preview</span><button class="close" type="button" aria-label="Close preview" autofocus>×</button></div>
+<div class="detail"><div class="detail-art"><img id="detail-image" alt=""></div><div class="detail-copy"><span class="family" id="detail-family"></span><h2 id="detail-title"></h2><p id="detail-rule"></p><a class="download" id="detail-download" download>Download PNG ↓</a><div class="sizes"><figure><img id="size-48" width="48" height="48" alt=""><figcaption>48 px</figcaption></figure><figure><img id="size-80" width="80" height="80" alt=""><figcaption>80 px</figcaption></figure></div></div></div>
+</dialog>
+<script id="catalog" type="application/json">[{"id":"house_high","name":"Scoreboard","blurb":"Every one of your ten starters added up — highest team score of the week","original":true,"symbol":"a crown over three ascending scoreboard bars","group":"Team","color":"#FFC93C","number":1,"file":"images/house_high.png"},{"id":"house_crash","name":"Crash and Burn","blurb":"Your team score this week minus last week — the biggest fall","original":true,"symbol":"a sharply descending arrow striking a cracked football, with angular flame shapes","group":"Team","color":"#FFC93C","number":2,"file":"images/house_crash.png"},{"id":"house_notdead","name":"Not Dead Yet","blurb":"Your team score this week minus last week — the biggest climb","original":true,"symbol":"a football with rising phoenix wings and an upward heartbeat chevron","group":"Team","color":"#FFC93C","number":3,"file":"images/house_notdead.png"},{"id":"house_unlucky","name":"Unlucky Schedule","blurb":"Of the six teams that lost their matchup, the one that scored most","original":true,"symbol":"a broken horseshoe framing an upright football, small lightning slash","group":"Team","color":"#FFC93C","number":4,"file":"images/house_unlucky.png"},{"id":"house_closest","name":"Photo Finish","blurb":"The matchup decided by the smallest margin — both teams split it","original":true,"symbol":"A bold front-facing sports photo camera with a large circular shutter lens, the shutter blades surrounding a small American football. A short straight black-and-ivory checkered finish stripe runs across the bottom of the camera, and one small angular flash spark sits above its top right. Clear camera silhouette with chunky angular shoulders and an oversized lens. Emphasize the instant captured at the finish: camera plus football plus finish stripe, all one compact icon. No racing chevrons, no arrows, no flying ribbon. Keep the number of shapes restrained.","group":"Team","color":"#FFC93C","number":5,"file":"images/house_closest.png"},{"id":"house_forrest","name":"Run Forrest Run","blurb":"Rushing yards added up across all ten starters, quarterback scrambles included","original":true,"symbol":"a single football cleat with broad sweeping speed wings","group":"RB","color":"#49E8CC","number":6,"file":"images/house_forrest.png"},{"id":"house_forrest_shrimp","name":"Run Forrest Run · Shrimp variant","blurb":"Rushing yards added up across all ten starters, quarterback scrambles included","original":true,"symbol":"A curled shrimp wrapped around an American football, inspired by the movie reference.","group":"RB","color":"#49E8CC","number":31,"file":"images/house_forrest_shrimp.png","awardId":"house_forrest","variant":true},{"id":"house_unsung","name":"Unsung Hero","blurb":"The single highest scoring player you left on your bench","original":true,"symbol":"a heroic five-point star rising above a simple sideline bench","group":"Team","color":"#FFC93C","number":7,"file":"images/house_unsung.png"},{"id":"house_bombs_wr","name":"Bombs Away: WR Edition","blurb":"Longest single catch by one starting wide receiver — receivers only, not backs or tight ends","original":true,"symbol":"two receiver gloves reaching up to catch a comet-shaped American football","group":"WR","color":"#49D0EE","number":8,"file":"images/house_bombs_wr.png"},{"id":"house_bigleg","name":"Big Leg","blurb":"Longest single field goal made by your starting kicker","original":true,"symbol":"a kicking cleat launching a football through tall goalposts on a single rising arc","group":"K","color":"#B7C1EE","number":9,"file":"images/house_bigleg.png"},{"id":"house_turnover","name":"Turnover Machine","blurb":"Interceptions plus fumble recoveries by your starting defense — ties go to the higher scoring defense","original":true,"symbol":"two chunky mechanical curved arrows circling an American football like a precision machine","group":"DEF","color":"#E8751A","number":10,"file":"images/house_turnover.png"},{"id":"house_sack","name":"Sack Attack","blurb":"Sacks by your starting defense","original":true,"symbol":"a heavy clenched armored fist crushing a quarterback helmet, stylized and non-graphic","group":"DEF","color":"#E8751A","number":11,"file":"images/house_sack.png"},{"id":"house_stickies","name":"Stickies","blurb":"Catches added up across all ten starters","original":true,"symbol":"one open receiver glove with an American football firmly attached at its center","group":"WR","color":"#49D0EE","number":12,"file":"images/house_stickies.png"},{"id":"house_6god","name":"6 God(s)","blurb":"Rushing and receiving touchdowns added up across all ten starters — passing touchdowns do not count","original":true,"symbol":"one large embossed numeral 6 crowned with a floating halo and two compact laurel branches; the 6 is the only permitted numeral","group":"Team","color":"#FFC93C","number":13,"file":"images/house_6god.png"},{"id":"house_bombs_qb","name":"Bombs Away: QB Edition","blurb":"Longest single completion by one starting quarterback, measured to where the play ended","original":true,"symbol":"an American football launching from a quarterback throwing hand with a long sharply rising trail","group":"QB","color":"#FF80AD","number":14,"file":"images/house_bombs_qb.png"},{"id":"house_onmyback","name":"Put The Team On My Back (Greg Jennings)","blurb":"One starter’s points as a share of their whole team’s score","original":true,"symbol":"Atlas kneeling on one knee, supporting an enormous American football across his shoulders and raised hands in place of the globe.","group":"Team","color":"#FFC93C","number":15,"file":"images/house_onmyback.png"},{"id":"house_forrest_cops","name":"Running From The Cops Speed","blurb":"Longest single carry by one starting running back — backs only","original":true,"symbol":"a forward-leaning football cleat breaking through a speedometer arc with three fast motion streaks","group":"RB","color":"#49E8CC","number":16,"file":"images/house_forrest_cops.png"},{"id":"house_drive","name":"Now Watch This Drive","blurb":"The longest touchdown drive your starting quarterback marched — measured from where his offense first got the ball","original":true,"symbol":"A simplified but recognizable portrait silhouette of George W. Bush, the former US president, hitting a golf driver, referencing his famous 'Now watch this drive' golf clip. Three-quarter full body pose at the finish of the swing, feet planted, torso turning, both arms holding a long golf driver high over his shoulder. His recognizable short side-parted gray hair, prominent ears, long nose and angular face in a few bold flat shapes; no hat. White short-sleeve polo shirt and dark straight golf trousers, restrained pink accent panels. A tiny white golf ball and two short pink motion arcs indicate the drive. One person, one golf club, no other figures. Flat vector-like pictogram rather than photo or detailed caricature. No written words or political logos.","group":"QB","color":"#FF80AD","number":17,"file":"images/house_drive.png"},{"id":"rec_yd","name":"Air Raid","blurb":"Receiving yards added up across all ten starters","original":false,"symbol":"three descending American footballs with diagonal sweeping contrails","group":"WR","color":"#49D0EE","number":18,"file":"images/rec_yd.png"},{"id":"pass_yd","name":"Gunslinger","blurb":"Passing yards added up across all ten starters — normally just your quarterback","original":false,"symbol":"an American football flying out of a stylized throwing hand inside a precise target ring","group":"QB","color":"#FF80AD","number":19,"file":"images/pass_yd.png"},{"id":"scrimmage","name":"Yards From Scrimmage","blurb":"Rushing plus receiving yards added up across all ten starters","original":false,"symbol":"two bold routes merging around a central American football into one powerful forward arrow over field yard lines","group":"RB","color":"#49E8CC","number":20,"file":"images/scrimmage.png"},{"id":"rush_att","name":"Bell Cow","blurb":"Most carries by one starting running back — backs only","original":false,"symbol":"a powerful bull-head silhouette with a small heavy cowbell below its chin","group":"RB","color":"#49E8CC","number":21,"file":"images/rush_att.png"},{"id":"td_lng","name":"Longest Touchdown","blurb":"Longest single touchdown scored by one of your starters, measured by who carried it in — a run or a catch. Throwing it does not count, so a touchdown pass goes to the receiver who caught it and never to the quarterback, though a quarterback who runs one in wins it like anyone else","original":false,"symbol":"a winged American football streaking over receding yard lines into two end zone pylons","group":"Team","color":"#FFC93C","number":22,"file":"images/td_lng.png"},{"id":"top_starter","name":"Highest-Scoring Starter","blurb":"Fantasy points of your single best starter","original":false,"symbol":"a large radiant five-point superstar with an American football inset and a small victory crown","group":"Team","color":"#FFC93C","number":23,"file":"images/top_starter.png"},{"id":"fgm_yds","name":"Leg Day","blurb":"Every field goal your kicker made, distances added together","original":false,"symbol":"a powerful cleat below three successive ascending kicking arcs ending between goalposts","group":"K","color":"#B7C1EE","number":24,"file":"images/fgm_yds.png"},{"id":"def_td","name":"Defense Wins Championships","blurb":"Touchdowns scored by your starting defense","original":false,"symbol":"a championship trophy with an armored football helmet as its cup and compact laurels","group":"DEF","color":"#E8751A","number":25,"file":"images/def_td.png"},{"id":"pts_allow","name":"Bend Don’t Break","blurb":"Points your starting defense gave up — fewest wins","original":false,"symbol":"a thick flexible steel defensive wall bending under an incoming arrow but remaining intact","group":"DEF","color":"#E8751A","number":26,"file":"images/pts_allow.png"},{"id":"yac","name":"YAC Attack","blurb":"Yards gained after the catch, all ten starters","original":false,"symbol":"an American football held in a gloved hand bursting through a broken circular tackle ring","group":"WR","color":"#49D0EE","number":27,"file":"images/yac.png"},{"id":"explosive","name":"Explosive Plays","blurb":"Plays that gained 40 yards or more, all ten starters","original":false,"symbol":"an American football at the center of a bold angular starburst explosion","group":"Team","color":"#FFC93C","number":28,"file":"images/explosive.png"},{"id":"first_td","name":"First Blood","blurb":"How many of your starters scored the opening touchdown of their own game","original":false,"symbol":"a sharp spearhead arrow piercing a small end-zone flag with a single dramatic lightning burst; sports symbolism, no gore","group":"Team","color":"#FFC93C","number":29,"file":"images/first_td.png"},{"id":"ypc","name":"Yards Per Touch","blurb":"Your starting backs’ yards divided by their touches — needs 10 carries","original":false,"symbol":"an American football inside a speed gauge with its needle reaching the highest point","group":"RB","color":"#49E8CC","number":30,"file":"images/ypc.png"}]</script>
+<script>
+const badges=JSON.parse(document.getElementById('catalog').textContent);
+const grid=document.getElementById('grid');
+const dialog=document.getElementById('preview');
+const groupNames={Team:'Team',QB:'Quarterback',RB:'Running back',WR:'Receiver',K:'Kicker',DEF:'Defense'};
+function node(tag,cls,text){const n=document.createElement(tag);if(cls)n.className=cls;if(text)n.textContent=text;return n;}
+function openBadge(b){
+ document.getElementById('detail-kicker').textContent='Badge '+String(b.number).padStart(2,'0')+' / '+badges.length;
+ document.getElementById('detail-title').textContent=b.name;
+ document.getElementById('detail-rule').textContent=b.blurb;
+ const family=document.getElementById('detail-family');family.textContent=groupNames[b.group]+' color family';family.style.color=b.color;
+ const img=document.getElementById('detail-image');img.src=b.file;img.alt=b.name+' badge';
+ ['size-48','size-80'].forEach(id=>document.getElementById(id).src=b.file);
+ const link=document.getElementById('detail-download');link.href=b.file;link.download=b.id+'.png';
+ dialog.showModal();
+}
+for(const b of badges){
+ const card=node('article','card');card.style.setProperty('--accent',b.color);card.dataset.id=b.id;
+ const art=node('button','art');art.type='button';art.setAttribute('aria-label','Preview '+b.name);
+ art.appendChild(node('span','serial',String(b.number).padStart(2,'0')));
+ const img=node('img');img.src=b.file;img.alt=b.name+' badge';img.width=240;img.height=240;img.decoding='async';art.appendChild(img);
+ art.addEventListener('click',()=>openBadge(b));card.appendChild(art);
+ const copy=node('div','card-copy');copy.appendChild(node('span','family',groupNames[b.group]+' / '+(b.variant?'Alternate':b.original?'House':'2026')));
+ copy.appendChild(node('h2',null,b.name));copy.appendChild(node('p','rule',b.blurb));
+ const foot=node('div','card-foot');foot.appendChild(node('span','origin','PNG asset'));
+ const link=node('a','filelink','Download ↗');link.href=b.file;link.download=b.id+'.png';link.setAttribute('aria-label','Download '+b.name+' PNG');foot.appendChild(link);
+ copy.appendChild(foot);card.appendChild(copy);grid.appendChild(card);
+}
+function filter(){
+ const term=document.getElementById('search').value.trim().toLowerCase();
+ const group=document.getElementById('family').value;
+ let count=0;
+ badges.forEach((b,i)=>{const visible=(group==='all'||b.group===group)&&(b.name+' '+b.blurb).toLowerCase().includes(term);grid.children[i].hidden=!visible;if(visible)count++;});
+ document.getElementById('count').textContent=count+' / '+badges.length+' badges';
+ document.getElementById('empty').hidden=count>0;
+}
+document.getElementById('search').addEventListener('input',filter);
+document.getElementById('family').addEventListener('change',filter);
+document.getElementById('surface').addEventListener('click',function(){const light=document.body.classList.toggle('light-stage');this.setAttribute('aria-pressed',String(light));this.textContent=light?'Dark backdrop':'Light backdrop';});
+dialog.querySelector('.close').addEventListener('click',()=>dialog.close());
+dialog.addEventListener('click',e=>{if(e.target===dialog){const r=dialog.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)dialog.close();}});
+</script>
+</body>
+</html>

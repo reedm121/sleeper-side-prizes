@@ -1,0 +1,219 @@
+[
+  {
+    "id": "house_high",
+    "name": "Scoreboard",
+    "symbol": "a crown over three ascending scoreboard bars",
+    "group": "Team",
+    "color": "#FFC93C"
+  },
+  {
+    "id": "house_crash",
+    "name": "Crash and Burn",
+    "symbol": "a sharply descending arrow striking a cracked football, with angular flame shapes",
+    "group": "Team",
+    "color": "#FFC93C"
+  },
+  {
+    "id": "house_notdead",
+    "name": "Not Dead Yet",
+    "symbol": "a football with rising phoenix wings and an upward heartbeat chevron",
+    "group": "Team",
+    "color": "#FFC93C"
+  },
+  {
+    "id": "house_unlucky",
+    "name": "Unlucky Schedule",
+    "symbol": "a broken horseshoe framing an upright football, small lightning slash",
+    "group": "Team",
+    "color": "#FFC93C"
+  },
+  {
+    "id": "house_closest",
+    "name": "Photo Finish",
+    "symbol": "A bold front-facing sports photo camera with a large circular shutter lens, the shutter blades surrounding a small American football. A short straight black-and-ivory checkered finish stripe runs across the bottom of the camera, and one small angular flash spark sits above its top right. Clear camera silhouette with chunky angular shoulders and an oversized lens. Emphasize the instant captured at the finish: camera plus football plus finish stripe, all one compact icon. No racing chevrons, no arrows, no flying ribbon. Keep the number of shapes restrained.",
+    "group": "Team",
+    "color": "#FFC93C"
+  },
+  {
+    "id": "house_forrest",
+    "name": "Run Forrest Run",
+    "symbol": "a single football cleat with broad sweeping speed wings",
+    "group": "RB",
+    "color": "#49E8CC"
+  },
+  {
+    "id": "house_unsung",
+    "name": "Unsung Hero",
+    "symbol": "a heroic five-point star rising above a simple sideline bench",
+    "group": "Team",
+    "color": "#FFC93C"
+  },
+  {
+    "id": "house_bombs_wr",
+    "name": "Bombs Away: WR Edition",
+    "symbol": "two receiver gloves reaching up to catch a comet-shaped American football",
+    "group": "WR",
+    "color": "#49D0EE"
+  },
+  {
+    "id": "house_bigleg",
+    "name": "Big Leg",
+    "symbol": "a kicking cleat launching a football through tall goalposts on a single rising arc",
+    "group": "K",
+    "color": "#B7C1EE"
+  },
+  {
+    "id": "house_turnover",
+    "name": "Turnover Machine",
+    "symbol": "two chunky mechanical curved arrows circling an American football like a precision machine",
+    "group": "DEF",
+    "color": "#E8751A"
+  },
+  {
+    "id": "house_sack",
+    "name": "Sack Attack",
+    "symbol": "a heavy clenched armored fist crushing a quarterback helmet, stylized and non-graphic",
+    "group": "DEF",
+    "color": "#E8751A"
+  },
+  {
+    "id": "house_stickies",
+    "name": "Stickies",
+    "symbol": "one open receiver glove with an American football firmly attached at its center",
+    "group": "WR",
+    "color": "#49D0EE"
+  },
+  {
+    "id": "house_6god",
+    "name": "6 God(s)",
+    "symbol": "one large embossed numeral 6 crowned with a floating halo and two compact laurel branches; the 6 is the only permitted numeral",
+    "group": "Team",
+    "color": "#FFC93C"
+  },
+  {
+    "id": "house_bombs_qb",
+    "name": "Bombs Away: QB Edition",
+    "symbol": "an American football launching from a quarterback throwing hand with a long sharply rising trail",
+    "group": "QB",
+    "color": "#FF80AD"
+  },
+  {
+    "id": "house_onmyback",
+    "name": "Put The Team On My Back (Greg Jennings)",
+    "symbol": "Atlas kneeling on one knee, supporting an enormous American football across his shoulders and raised hands in place of the globe.",
+    "group": "Team",
+    "color": "#FFC93C"
+  },
+  {
+    "id": "house_forrest_cops",
+    "name": "Running From The Cops Speed",
+    "symbol": "a forward-leaning football cleat breaking through a speedometer arc with three fast motion streaks",
+    "group": "RB",
+    "color": "#49E8CC"
+  },
+  {
+    "id": "house_drive",
+    "name": "Now Watch This Drive",
+    "symbol": "A simplified but recognizable portrait silhouette of George W. Bush, the former US president, hitting a golf driver, referencing his famous 'Now watch this drive' golf clip. Three-quarter full body pose at the finish of the swing, feet planted, torso turning, both arms holding a long golf driver high over his shoulder. His recognizable short side-parted gray hair, prominent ears, long nose and angular face in a few bold flat shapes; no hat. White short-sleeve polo shirt and dark straight golf trousers, restrained pink accent panels. A tiny white golf ball and two short pink motion arcs indicate the drive. One person, one golf club, no other figures. Flat vector-like pictogram rather than photo or detailed caricature. No written words or political logos.",
+    "group": "QB",
+    "color": "#FF80AD"
+  },
+  {
+    "id": "rec_yd",
+    "name": "Air Raid",
+    "symbol": "three descending American footballs with diagonal sweeping contrails",
+    "group": "WR",
+    "color": "#49D0EE"
+  },
+  {
+    "id": "pass_yd",
+    "name": "Gunslinger",
+    "symbol": "an American football flying out of a stylized throwing hand inside a precise target ring",
+    "group": "QB",
+    "color": "#FF80AD"
+  },
+  {
+    "id": "scrimmage",
+    "name": "Yards From Scrimmage",
+    "symbol": "two bold routes merging around a central American football into one powerful forward arrow over field yard lines",
+    "group": "RB",
+    "color": "#49E8CC"
+  },
+  {
+    "id": "rush_att",
+    "name": "Bell Cow",
+    "symbol": "a powerful bull-head silhouette with a small heavy cowbell below its chin",
+    "group": "RB",
+    "color": "#49E8CC"
+  },
+  {
+    "id": "td_lng",
+    "name": "Longest Touchdown",
+    "symbol": "a winged American football streaking over receding yard lines into two end zone pylons",
+    "group": "Team",
+    "color": "#FFC93C"
+  },
+  {
+    "id": "top_starter",
+    "name": "Highest-Scoring Starter",
+    "symbol": "a large radiant five-point superstar with an American football inset and a small victory crown",
+    "group": "Team",
+    "color": "#FFC93C"
+  },
+  {
+    "id": "fgm_yds",
+    "name": "Leg Day",
+    "symbol": "a powerful cleat below three successive ascending kicking arcs ending between goalposts",
+    "group": "K",
+    "color": "#B7C1EE"
+  },
+  {
+    "id": "def_td",
+    "name": "Defense Wins Championships",
+    "symbol": "a championship trophy with an armored football helmet as its cup and compact laurels",
+    "group": "DEF",
+    "color": "#E8751A"
+  },
+  {
+    "id": "pts_allow",
+    "name": "Bend Don’t Break",
+    "symbol": "a thick flexible steel defensive wall bending under an incoming arrow but remaining intact",
+    "group": "DEF",
+    "color": "#E8751A"
+  },
+  {
+    "id": "yac",
+    "name": "YAC Attack",
+    "symbol": "an American football held in a gloved hand bursting through a broken circular tackle ring",
+    "group": "WR",
+    "color": "#49D0EE"
+  },
+  {
+    "id": "explosive",
+    "name": "Explosive Plays",
+    "symbol": "an American football at the center of a bold angular starburst explosion",
+    "group": "Team",
+    "color": "#FFC93C"
+  },
+  {
+    "id": "first_td",
+    "name": "First Blood",
+    "symbol": "a sharp spearhead arrow piercing a small end-zone flag with a single dramatic lightning burst; sports symbolism, no gore",
+    "group": "Team",
+    "color": "#FFC93C"
+  },
+  {
+    "id": "ypc",
+    "name": "Yards Per Touch",
+    "symbol": "an American football inside a speed gauge with its needle reaching the highest point",
+    "group": "RB",
+    "color": "#49E8CC"
+  },
+  {
+    "id": "house_forrest_shrimp",
+    "name": "Run Forrest Run · Shrimp variant",
+    "symbol": "A curled shrimp wrapped around an American football, inspired by the movie reference.",
+    "group": "RB",
+    "color": "#49E8CC"
+  }
+]
