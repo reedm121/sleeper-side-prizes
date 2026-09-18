@@ -7,14 +7,18 @@
 //   node setup.js --league <id> --prizes core --yes  no questions: the core set, house empty
 //   node setup.js --league <id> --prizes all --house house_high,house_closest --name "My League" --yes
 //   node setup.js --list                            print the glossary and stop
+//   node setup.js --league <id> --yes --preview      ...and build a page and serve it
 //
 // `--prizes` takes `core` (the ~20 that settle cleanly and rarely tie), `all`, or a comma list of
 // ids. `--house` is a comma list of ids to pin at the top under their own heading. `--out` writes
-// somewhere other than league.json. Nothing here touches Sleeper except to look the league up so
-// you can see you typed the right id.
+// somewhere other than league.json. `--preview` / `--no-preview` answer the last question. Sleeper
+// is only read: the league, its teams and, for the preview, one week's box scores.
 
-import { readFile, writeFile } from 'node:fs/promises';
+import { readFile, writeFile, readdir } from 'node:fs/promises';
+import { statSync } from 'node:fs';
 import { createInterface } from 'node:readline/promises';
+import { execFileSync, spawn } from 'node:child_process';
+import { join } from 'node:path';
 import { stdin, stdout } from 'node:process';
 import { GLOSSARY, TIERS } from './awards.js';
 import { CONFIG_PATH } from './lib/league.js';
@@ -95,6 +99,7 @@ const ask = async (q, fallback) => {
 };
 
 // ---- 1. the league ---------------------------------------------------------------------
+if (rl) console.log('\n  Set this up for your Sleeper league. Press Enter to take the answer shown in [brackets].');
 let leagueId = flag('league') || null;
 let info = null;
 for (;;) {
@@ -114,8 +119,17 @@ console.log(`\n  ${info.name}  —  ${info.season} season, ${info.total_rosters}
 console.log(`  Lineup: ${slots.join(' ')}`);
 const sc = info.scoring_settings || {};
 console.log(`  Scoring: ${sc.rec === 1 ? 'full PPR' : sc.rec === 0.5 ? 'half PPR' : sc.rec ? `${sc.rec} per catch` : 'standard'}, ${sc.pass_td ?? '?'} per passing TD`);
-if (String(info.season) !== String((await api.state()).season)) {
-  console.log(`  Note: this is a ${info.season} league. Sleeper gives each season its own id — for the current season use this year's.`);
+// The teams, exactly as the pages will print them — a team name where the manager set one,
+// the display name where not. Twelve familiar names is how you know you typed the right id.
+try {
+  const users = await api.users(leagueId);
+  const names = users.map((u) => (u.metadata?.team_name || '').trim() || u.display_name).filter(Boolean).sort((a, b) => a.localeCompare(b));
+  console.log(`  Teams:   ${names.join(' · ')}`);
+} catch { console.log('  Teams:   (could not fetch the team list; the build will)'); }
+const nfl = await api.state();
+const pastSeason = String(info.season) !== String(nfl.season);
+if (pastSeason) {
+  console.log(`\n  Note: this is a ${info.season} league. Sleeper gives each season its own id — for the current season use this year's.`);
 }
 console.log();
 
@@ -180,15 +194,89 @@ const config = {
   custom: existing.custom && typeof existing.custom === 'object' ? existing.custom : {},
 };
 await writeFile(out, JSON.stringify(config, null, 2) + '\n');
-rl?.close();
 
 const total = house.length + prizes.length;
 console.log(`\n  Wrote ${out}: ${total} prize${total === 1 ? '' : 's'} (${house.length} house).`);
-console.log('\n  Next:');
-if (info.previous_league_id) {
-  console.log(`    node build.js --season ${Number(info.season) - 1} --week 1 --league ${info.previous_league_id} --demo`);
-  console.log('      a demo page from last season, to see the wheel and every board with real numbers');
+
+// ---- 6. a preview ------------------------------------------------------------------------
+//
+// The point of the whole thing is a page with your league's names on it, so offer to build one
+// now rather than hand over a list of commands. Which week depends on the calendar:
+//
+//   this season, a week has finished   the real thing: the newest finished week, live wheel
+//   this season, nothing finished yet   last season's final week, as a demo, off the league
+//                                       Sleeper links as the previous one
+//   a past season's league              its own final week, as a demo
+//
+// Headshots and the play-by-play download are skipped here so the preview is a minute, not
+// five; the Tuesday workflow includes both.
+async function previewTarget() {
+  const latestFinal = async (season) => {
+    const sched = await api.schedule(season);
+    const top = Math.max(0, ...sched.map((g) => g.week));
+    for (let w = top; w >= 1; w--) if (api.weekIsFinal(sched, w).final) return w;
+    return 0;
+  };
+  if (!pastSeason) {
+    const w = await latestFinal(nfl.season);
+    if (w) return { args: ['--latest'], label: `week ${w} of this season — the real page, with a live wheel` };
+    if (info.previous_league_id) {
+      const prev = await api.league(info.previous_league_id);
+      const pw = await latestFinal(prev.season);
+      if (pw) return { args: ['--season', String(prev.season), '--week', String(pw), '--league', String(prev.league_id), '--demo'], label: `week ${pw} of ${prev.season}, as a demo — nothing this season has finished yet` };
+    }
+    return null;
+  }
+  const w = await latestFinal(info.season);
+  return w ? { args: ['--season', String(info.season), '--week', String(w), '--league', String(leagueId), '--demo'], label: `week ${w} of ${info.season}, as a demo` } : null;
 }
+
+let wantPreview = has('preview');
+if (!wantPreview && rl && !has('no-preview')) {
+  const a = await ask('Build a preview page now and open it', 'Y');
+  wantPreview = /^y/i.test(a);
+}
+rl?.close();
+
+if (wantPreview) {
+  const target = await previewTarget().catch(() => null);
+  if (!target) {
+    console.log('\n  No finished week to preview yet. Once one is, run: node build.js --latest && npm run build && npm run dev');
+  } else {
+    console.log(`\n  Building ${target.label}...\n`);
+    const env = { ...process.env, LEAGUE_CONFIG: out };
+    const here = new URL('.', import.meta.url).pathname;
+    const run = (script, args) => execFileSync(process.execPath, [join(here, script), ...args], { stdio: 'inherit', env });
+    try {
+      run('build.js', [...target.args, '--no-drives']);
+      run('site.js', []);
+    } catch {
+      console.error('\n  The preview build failed; the messages above say why. league.json is written either way.');
+      process.exit(1);
+    }
+    const port = Number(process.env.PORT) || 3000;
+    const url = `http://localhost:${port}`;
+    // Straight to the page that was just built. The front door is the holding card while a week
+    // is being played, and the person at this prompt wants to see their league's names.
+    const built = (await readdir(join(here, 'weeks')).catch(() => []))
+      .filter((f) => /^\d{4}-week-\d+\.html$/.test(f))
+      .map((f) => ({ f, t: statSync(join(here, 'weeks', f)).mtimeMs }))
+      .sort((a, b) => b.t - a.t)[0];
+    const page = built ? `${url}/weeks/${built.f.replace(/\.html$/, '')}` : url;
+    console.log(`\n  Serving ${url} — Ctrl-C stops it. Opening ${page}`);
+    console.log('  Every page is real except the wheel on a demo week, which spins for fun and records nothing.\n');
+    const server = spawn(process.execPath, [join(here, 'dev.js')], { stdio: 'inherit', env });
+    // Only when a person is watching. A scripted run has nowhere to open a browser.
+    if (stdout.isTTY) {
+      const opener = process.platform === 'darwin' ? 'open' : process.platform === 'win32' ? 'start' : 'xdg-open';
+      setTimeout(() => { try { spawn(opener, [page], { stdio: 'ignore', shell: process.platform === 'win32' }).on('error', () => {}); } catch {} }, 1200);
+    }
+    await new Promise((resolve) => server.on('exit', resolve));
+    process.exit(0);
+  }
+}
+
+console.log('\n  Next:');
 console.log('    node build.js --latest         the newest finished week of this season');
 console.log('    npm run build && npm run dev   the site at http://localhost:3000');
 console.log('    see README.md for deploying it and for the Tuesday workflow\n');

@@ -5,11 +5,14 @@
   "type": "module",
   "description": "Weekly side-prize leaderboards, a sealed prize wheel and a prize board for any Sleeper fantasy football league.",
   "scripts": {
+    "start": "node setup.js",
     "setup": "node setup.js",
     "build": "node site.js",
     "report": "node build.js",
     "dev": "node dev.js",
     "test": "node test/awards.test.mjs && node test/compute.test.mjs && node test/merge.test.mjs && node test/wheel.test.mjs && node test/seal.test.mjs"
   },
-  "engines": { "node": ">=20" }
+  "engines": {
+    "node": ">=20"
+  }
 }
