@@ -24,10 +24,15 @@ strangers; this is the rest.
 - No message to the league is needed: nothing of theirs is in the public repository.
 - LICENSE names Reed Gantz.
 
-## Still to do by hand
+## Done by hand (2026-09-18)
 
-- [ ] Flip the template repository public: `gh repo edit reedm121/sleeper-side-prizes --visibility public --accept-visibility-change-consequences`
-- [ ] Turn on secret scanning and push protection on it (Settings -> Code security).
-- [ ] Push New Ro's main after checking the merged tree builds; that push deploys the live site.
-- [ ] Scheduled workflows on public repositories are disabled after 60 days without a commit. The
-      template has no weekly commits, so its copy of the workflow is a fork's to enable.
+- [x] Template repository flipped public and marked as a GitHub template; secret scanning and
+      push protection on.
+- [x] New Ro's instance pushed and the live deploy verified: every route, both API functions,
+      week-1 numbers unchanged.
+
+## Ongoing
+
+- Scheduled workflows on public repositories are disabled after 60 days without a commit. The
+  template has no weekly commits, so its copy of the workflow is a fork's to enable.
+- Tool changes go to the template first, then `git pull template main` in the instance.
