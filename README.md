@@ -26,32 +26,44 @@ anyone can see it, and opened when someone spins. See [The wheel](#the-wheel).
 
 ## Quick start
 
-You need Node 20+ and, optionally, Python 3 with Pillow for player headshots.
+You need [Node.js](https://nodejs.org) (version 20 or newer; the installer's defaults are fine).
+Nothing else — the project has no dependencies to install.
+
+1. Get the code: the green **Code** button above, then **Download ZIP** and unzip it, or
+   `git clone https://github.com/reedm121/sleeper-side-prizes.git`.
+2. Open a terminal in that folder (on a Mac, right-click the folder and choose **New Terminal at
+   Folder**; on Windows, shift-right-click and choose **Open PowerShell window here**).
+3. Run one command:
 
 ```sh
-git clone https://github.com/reedm121/sleeper-side-prizes.git && cd sleeper-side-prizes
-npm run setup            # asks for your league id, shows the glossary, writes league.json (or copy league.example.json)
-node build.js --latest   # the newest finished week -> weeks/<season>-week-<n>.html
-npm run build            # assembles public/
-npm run dev              # http://localhost:3000
+npm start
 ```
 
-`npm run setup` looks your league up on Sleeper, prints its name, lineup and scoring so you can
-see you typed the right id, then lists every prize by group and asks which to play for. Answer
-with numbers, ranges or ids (`1-8, 14, rec_yd`), or `core` for the twenty-odd that settle
-cleanly and rarely tie, or `all`. It also asks which of those are **house prizes** — the ones
-your league has always played for — which are pinned at the top of every page under their own
-heading. Optional.
+It asks for your **Sleeper league id** — the long number in the address bar when you open your
+league on sleeper.com, also shown under the league's settings in the app — looks the league up,
+and shows you its name, teams, lineup and scoring so you know you typed the right one. Then it
+asks a few more questions; **pressing Enter takes the answer shown in brackets** every time, so the
+whole thing can be your league id and five Enters. Finally it builds a page from the newest
+finished week and opens it in your browser, with your league's teams on it.
 
-To see it working before your season has a finished week, build one from last season. Sleeper
-gives each season its own league id; setup prints the command with the previous one filled in:
+The questions, and what Enter gives you:
 
-```sh
-node build.js --season 2025 --week 1 --league <last season's id> --demo
-```
+| Question | Enter means |
+|---|---|
+| Name to print on the pages | The league's name on Sleeper |
+| Timezone | US Eastern |
+| Prizes to play for | The **core** set: about twenty that settle cleanly and rarely tie. Or type numbers, ranges or ids from the list it prints (`1-8, 14, rec_yd`), or `all` |
+| House prizes | None. These are prizes pinned at the top of every page under their own heading — the ones your league has always played for |
+| Build a preview page now | Yes |
 
-A `--demo` page reports the week honestly but its wheel spins to a random prize on demand and
-records nothing. Every 2025 week in this repository's `weeks/` is one of those.
+If your season has no finished week yet, the preview is last season's final week as a **demo**:
+real numbers, but its wheel spins to a random prize on demand and records nothing.
+
+Your answers are saved in `league.json`. Run `npm start` again any time to change them; it keeps
+what you had as the defaults. Or edit the file — see below.
+
+Once it looks right, [deploy it](#deploying) so the league can see it, and the Tuesday workflow
+takes over from there.
 
 ## league.json
 

@@ -26,6 +26,12 @@ import { extname, join, normalize } from 'node:path';
 import handler from './api/state.js';
 import wheelHandler from './api/wheel.js';
 
+// Nothing to serve until something has been built. Say so, and say what to run.
+if (!existsSync('public')) {
+  console.error('Nothing to serve yet: public/ does not exist. Run `npm start` to set up and build, or `npm run build`.');
+  process.exit(1);
+}
+
 const PORT = Number(process.env.PORT) || 3000;
 const ROOT = 'public';
 const TYPES = { '.html': 'text/html; charset=utf-8', '.json': 'application/json',
