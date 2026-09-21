@@ -25,6 +25,7 @@ import { renderHTML } from './render.js';
 import { AWARDS, PLAYED } from './awards.js';
 import { spin } from './wheel.js';
 import { LEAGUE, CONFIG_PATH } from './lib/league.js';
+import { canonicalLedger } from './lib/ids.js';
 
 const argv = process.argv.slice(2);
 const flag = (name, fallback = null) => {
@@ -166,7 +167,7 @@ console.error(`  ${ctx.teams.length} teams, ${ctx.teams.reduce((a, t) => a + t.s
 // what gets computed at all. See `catalogue` below.
 const LEDGER = 'wheel.json';
 let ledger = { draws: [] };
-try { ledger = JSON.parse(await readFile(LEDGER, 'utf8')); } catch {}
+try { ledger = canonicalLedger(JSON.parse(await readFile(LEDGER, 'utf8'))); } catch {}
 const recorded = ledger.draws.find((d) => d.season === Number(season) && d.week === week);
 
 // Only the prizes the league currently plays for are computed — a retired award must not

@@ -5,7 +5,7 @@
 //   node setup.js                                   ask everything
 //   node setup.js --league 123456789012345678       ask the rest, skip the id
 //   node setup.js --league <id> --prizes core --yes  no questions: the core set, house empty
-//   node setup.js --league <id> --prizes all --house house_high,house_closest --name "My League" --yes
+//   node setup.js --league <id> --prizes all --house high_score,closest --name "My League" --yes
 //   node setup.js --list                            print the glossary and stop
 //   node setup.js --league <id> --yes --preview      ...and build a page and serve it
 //

@@ -23,13 +23,16 @@
 // to reveal.
 
 import { readWheel, revealWheel, sealWheel, sealed, backend } from '../lib/store.js';
-import ledger from '../wheel.json' with { type: 'json' };
+import rawLedger from '../wheel.json' with { type: 'json' };
+import { canonicalLedger } from '../lib/ids.js';
+
+const ledger = canonicalLedger(rawLedger);
 
 // The pool a week may be drawn from is whatever the Tuesday build published for it, and
 // nothing else. Imported rather than read at runtime so it is bundled with the function.
 //
 // This is the only thing standing between the wheel and a curl: sealing is first-write-wins,
-// so a request that arrived before anyone opened the page with `pool: ["house_high"]` would
+// so a request that arrived before anyone opened the page with `pool: ["high_score"]` would
 // fix that week's prize permanently, and the commitment would verify perfectly afterwards.
 // Checking ids against the glossary is not enough — it holds dozens of prizes this league does
 // them retired, and any of them would have passed.

@@ -11,7 +11,7 @@
     "build": "node site.js",
     "report": "node build.js",
     "dev": "node dev.js",
-    "test": "node test/awards.test.mjs && node test/compute.test.mjs && node test/merge.test.mjs && node test/wheel.test.mjs && node test/seal.test.mjs"
+    "test": "node test/awards.test.mjs && node test/ids.test.mjs && node test/compute.test.mjs && node test/merge.test.mjs && node test/wheel.test.mjs && node test/seal.test.mjs"
   },
   "engines": {
     "node": ">=20"

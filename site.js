@@ -19,6 +19,7 @@ import { execFileSync } from 'node:child_process';
 import * as api from './sleeper.js';
 import { WEB_DIR, badgeImg, badgeCSS } from './badges.js';
 import { LEAGUE } from './lib/league.js';
+import { canonicalLedger } from './lib/ids.js';
 
 const NAME = LEAGUE.name;
 
@@ -63,7 +64,7 @@ async function draws() {
   try {
     const { AWARDS } = await import('./awards.js');
     const name = new Map(AWARDS.map((a) => [a.id, a.name]));
-    const led = JSON.parse(await readFile(LEDGER, 'utf8'));
+    const led = canonicalLedger(JSON.parse(await readFile(LEDGER, 'utf8')));
     for (const p of led.pending || []) out.set(`${p.season}-${p.week}`, { sealed: true });
     for (const d of led.draws || []) out.set(`${d.season}-${d.week}`, { id: d.pick, name: name.get(d.pick) || d.pick });
   } catch { /* no ledger yet */ }

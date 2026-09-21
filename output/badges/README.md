@@ -13,23 +13,23 @@ These are raster PNG images with a vector-like visual style, not SVG source file
 
 ## Awards
 
-1. **Scoreboard** — Every one of your ten starters added up — highest team score of the week. [PNG](images/house_high.png)
-2. **Crash and Burn** — Your team score this week minus last week — the biggest fall. [PNG](images/house_crash.png)
-3. **Not Dead Yet** — Your team score this week minus last week — the biggest climb. [PNG](images/house_notdead.png)
-4. **Unlucky Schedule** — Of the six teams that lost their matchup, the one that scored most. [PNG](images/house_unlucky.png)
-5. **Photo Finish** — The matchup decided by the smallest margin — both teams split it. [PNG](images/house_closest.png)
-6. **Run Forrest Run** — Rushing yards added up across all ten starters, quarterback scrambles included. [PNG](images/house_forrest.png)
-7. **Unsung Hero** — The single highest scoring player you left on your bench. [PNG](images/house_unsung.png)
-8. **Bombs Away: WR Edition** — Longest single catch by one starting wide receiver — receivers only, not backs or tight ends. [PNG](images/house_bombs_wr.png)
-9. **Big Leg** — Longest single field goal made by your starting kicker. [PNG](images/house_bigleg.png)
-10. **Turnover Machine** — Interceptions plus fumble recoveries by your starting defense — ties go to the higher scoring defense. [PNG](images/house_turnover.png)
-11. **Sack Attack** — Sacks by your starting defense. [PNG](images/house_sack.png)
-12. **Stickies** — Catches added up across all ten starters. [PNG](images/house_stickies.png)
-13. **6 God(s)** — Rushing and receiving touchdowns added up across all ten starters — passing touchdowns do not count. [PNG](images/house_6god.png)
-14. **Bombs Away: QB Edition** — Longest single completion by one starting quarterback, measured to where the play ended. [PNG](images/house_bombs_qb.png)
-15. **Put The Team On My Back (Greg Jennings)** — One starter’s points as a share of their whole team’s score. [PNG](images/house_onmyback.png)
-16. **Running From The Cops Speed** — Longest single carry by one starting running back — backs only. [PNG](images/house_forrest_cops.png)
-17. **Now Watch This Drive** — The longest touchdown drive your starting quarterback marched — measured from where his offense first got the ball. [PNG](images/house_drive.png)
+1. **Scoreboard** — Every one of your ten starters added up — highest team score of the week. [PNG](images/high_score.png)
+2. **Crash and Burn** — Your team score this week minus last week — the biggest fall. [PNG](images/swing_down.png)
+3. **Not Dead Yet** — Your team score this week minus last week — the biggest climb. [PNG](images/swing_up.png)
+4. **Unlucky Schedule** — Of the six teams that lost their matchup, the one that scored most. [PNG](images/best_loser.png)
+5. **Photo Finish** — The matchup decided by the smallest margin — both teams split it. [PNG](images/closest.png)
+6. **Run Forrest Run** — Rushing yards added up across all ten starters, quarterback scrambles included. [PNG](images/rush_yd.png)
+7. **Unsung Hero** — The single highest scoring player you left on your bench. [PNG](images/bench_best.png)
+8. **Bombs Away: WR Edition** — Longest single catch by one starting wide receiver — receivers only, not backs or tight ends. [PNG](images/rec_lng_wr.png)
+9. **Big Leg** — Longest single field goal made by your starting kicker. [PNG](images/fgm_lng.png)
+10. **Turnover Machine** — Interceptions plus fumble recoveries by your starting defense — ties go to the higher scoring defense. [PNG](images/def_takeaways.png)
+11. **Sack Attack** — Sacks by your starting defense. [PNG](images/def_sack.png)
+12. **Stickies** — Catches added up across all ten starters. [PNG](images/rec.png)
+13. **6 God(s)** — Rushing and receiving touchdowns added up across all ten starters — passing touchdowns do not count. [PNG](images/td_rush_rec.png)
+14. **Bombs Away: QB Edition** — Longest single completion by one starting quarterback, measured to where the play ended. [PNG](images/pass_lng.png)
+15. **Put The Team On My Back (Greg Jennings)** — One starter’s points as a share of their whole team’s score. [PNG](images/share_of_team.png)
+16. **Running From The Cops Speed** — Longest single carry by one starting running back — backs only. [PNG](images/rush_lng_rb.png)
+17. **Now Watch This Drive** — The longest touchdown drive your starting quarterback marched — measured from where his offense first got the ball. [PNG](images/drive_lng.png)
 18. **Air Raid** — Receiving yards added up across all ten starters. [PNG](images/rec_yd.png)
 19. **Gunslinger** — Passing yards added up across all ten starters — normally just your quarterback. [PNG](images/pass_yd.png)
 20. **Yards From Scrimmage** — Rushing plus receiving yards added up across all ten starters. [PNG](images/scrimmage.png)
@@ -46,7 +46,7 @@ These are raster PNG images with a vector-like visual style, not SVG source file
 
 ## Run Forrest Run alternate
 
-[The shrimp version](images/house_forrest_shrimp.png) wraps a curled shrimp around a football as a Forrest Gump movie reference. The original cleat design is also included.
+[The shrimp version](images/rush_yd_shrimp.png) wraps a curled shrimp around a football as a Forrest Gump movie reference. The original cleat design is also included.
 
 ## Revised concepts
 

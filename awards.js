@@ -10,9 +10,9 @@
 //              marked `out`. Read from league.json (see lib/league.js).
 //
 // IDS ARE PERMANENT. An id keys the season ledger (wheel.json), the sealed draws in Redis, the
-// badge art files and every saved shortlist verdict. Rename the NAME freely; never the id. Some
-// ids carry a `house_` prefix from the league this was built for — that prefix means nothing
-// now, and it stays because the history under it does.
+// badge art files and every saved shortlist verdict. Rename the NAME freely. If an id really
+// must change, add the old one to LEGACY_IDS in lib/ids.js — everything that reads an id from
+// storage passes it through `canonical()`, so history written under the old id keeps resolving.
 //
 // Each row declares how it aggregates, which positions it can draw from, and when it should
 // refuse to publish a result:
@@ -41,6 +41,9 @@
 // as a starting point — the ones that settle cleanly and rarely tie.
 
 import { LEAGUE, mentionedIds } from './lib/league.js';
+import { canonical } from './lib/ids.js';
+
+export { canonical, LEGACY_IDS } from './lib/ids.js';
 
 const A = (id, name, blurb, cfg) => ({ id, name, blurb, dir: 'desc', ...cfg });
 
@@ -59,16 +62,16 @@ export const TIERS = {
 
 export const GLOSSARY = [
   // ---- Team score & matchup ------------------------------------------------------------
-  A('house_high', 'Scoreboard', 'Every one of your starters added up — highest team score of the week', { tier: 1, agg: 'points', mode: 'sum', unit: 'pts', core: true }),
+  A('high_score', 'Scoreboard', 'Every one of your starters added up — highest team score of the week', { tier: 1, agg: 'points', mode: 'sum', unit: 'pts', core: true }),
   A('low_score', 'The Basement', 'Every one of your starters added up — lowest team score of the week', { tier: 5, agg: 'points', mode: 'sum', dir: 'asc', unit: 'pts' }),
-  A('house_crash', 'Crash and Burn', 'Your team score this week minus last week — the biggest fall', { tier: 1, agg: 'delta', dir: 'asc', unit: 'pts' }),
-  A('house_notdead', 'Not Dead Yet', 'Your team score this week minus last week — the biggest climb', { tier: 1, agg: 'delta', unit: 'pts', core: true }),
-  A('house_unlucky', 'Unlucky Schedule', 'Of the teams that lost their matchup, the one that scored most', { tier: 1, agg: 'luckyLoser', unit: 'pts', core: true }),
+  A('swing_down', 'Crash and Burn', 'Your team score this week minus last week — the biggest fall', { tier: 1, agg: 'delta', dir: 'asc', unit: 'pts' }),
+  A('swing_up', 'Not Dead Yet', 'Your team score this week minus last week — the biggest climb', { tier: 1, agg: 'delta', unit: 'pts', core: true }),
+  A('best_loser', 'Unlucky Schedule', 'Of the teams that lost their matchup, the one that scored most', { tier: 1, agg: 'luckyLoser', unit: 'pts', core: true }),
   A('escape', 'Escape Artist', 'Of the teams that won their matchup, the one that scored least', { tier: 1, agg: 'luckyWinner', dir: 'asc', unit: 'pts' }),
-  A('house_closest', 'Photo Finish', 'The matchup decided by the smallest margin — both teams split it', { tier: 1, agg: 'closest', dir: 'asc', unit: 'pts', split: true, core: true }),
+  A('closest', 'Photo Finish', 'The matchup decided by the smallest margin — both teams split it', { tier: 1, agg: 'closest', dir: 'asc', unit: 'pts', split: true, core: true }),
   A('blowout', 'Curb Stomp', 'The matchup decided by the widest margin — the winner takes it', { tier: 1, agg: 'margin', unit: 'pts' }),
   A('shootout', 'Shootout', 'The matchup with the most combined points — both teams split it', { tier: 1, agg: 'shootout', unit: 'pts', split: true }),
-  A('house_onmyback', 'Carried', 'One starter’s points as a share of their whole team’s score', { tier: 1, agg: 'shareOfTeam', unit: '%', core: true }),
+  A('share_of_team', 'Carried', 'One starter’s points as a share of their whole team’s score', { tier: 1, agg: 'shareOfTeam', unit: '%', core: true }),
   A('flex', 'Flex Appeal', 'Points from your flex slots alone', { tier: 1, agg: 'slot', slots: ['FLEX', 'WRRB_FLEX', 'REC_FLEX', 'SUPER_FLEX'], unit: 'pts' }),
 
   // ---- The big ones --------------------------------------------------------------------
@@ -79,11 +82,11 @@ export const GLOSSARY = [
   A('te_pts', 'Tight End Room', 'Fantasy points from your starting tight ends', { tier: 2, agg: 'points', mode: 'sum', pos: ['TE'], unit: 'pts' }),
   A('rec_yd', 'Air Raid', 'Receiving yards added up across all your starters', { tier: 2, agg: 'sum', keys: ['rec_yd'], unit: 'yd', core: true }),
   A('pass_yd', 'Gunslinger', 'Passing yards added up across all your starters — normally just your quarterback', { tier: 2, posTag: 'QB', agg: 'sum', keys: ['pass_yd'], unit: 'yd', core: true }),
-  A('house_forrest', 'Ground Game', 'Rushing yards added up across all your starters, quarterback scrambles included', { tier: 2, agg: 'sum', keys: ['rush_yd'], unit: 'yd', core: true }),
+  A('rush_yd', 'Ground Game', 'Rushing yards added up across all your starters, quarterback scrambles included', { tier: 2, agg: 'sum', keys: ['rush_yd'], unit: 'yd', core: true }),
   A('scrimmage', 'Yards From Scrimmage', 'Rushing plus receiving yards added up across all your starters', { tier: 2, agg: 'sum', keys: ['rush_rec_yd'], unit: 'yd', core: true }),
   A('pass_td', 'Touchdown Passes', 'Touchdown passes thrown by your starting quarterbacks', { tier: 2, posTag: 'QB', agg: 'sum', keys: ['pass_td'], unit: '' }),
-  A('house_6god', 'Touchdown Club', 'Rushing and receiving touchdowns added up across all your starters — passing touchdowns do not count', { tier: 2, agg: 'sum', keys: ['rush_td', 'rec_td'], unit: '', core: true }),
-  A('house_stickies', 'Stickies', 'Catches added up across all your starters', { tier: 2, agg: 'sum', keys: ['rec'], unit: '', core: true }),
+  A('td_rush_rec', 'Touchdown Club', 'Rushing and receiving touchdowns added up across all your starters — passing touchdowns do not count', { tier: 2, agg: 'sum', keys: ['rush_td', 'rec_td'], unit: '', core: true }),
+  A('rec', 'Stickies', 'Catches added up across all your starters', { tier: 2, agg: 'sum', keys: ['rec'], unit: '', core: true }),
   A('first_downs', 'Chain Movers', 'First downs your starters picked up, on the ground and through the air', { tier: 2, agg: 'sum', keys: ['rush_fd', 'rec_fd'], unit: '' }),
   A('rush_att', 'Bell Cow', 'Most carries by one starting running back — backs only', { tier: 2, agg: 'max', keys: ['rush_att'], pos: ['RB'], unit: '', core: true }),
   A('rush_yd_one', 'Workhorse', 'Most rushing yards by one starting running back — backs only', { tier: 2, agg: 'max', keys: ['rush_yd'], pos: ['RB'], unit: 'yd' }),
@@ -103,24 +106,24 @@ export const GLOSSARY = [
   // the same number, and two teams holding either end of one score would tie. The ball
   // carrier scores it, so the catcher gets the credit and the passer gets none.
   A('td_lng', 'Longest Touchdown', 'Longest single touchdown by one of your starters, credited to whoever carried it in — a run or a catch, never the passer', { tier: 2, agg: 'max', keys: ['rush_td_lng', 'rec_td_lng'], unit: 'yd', core: true }),
-  A('house_bombs_wr', 'Bombs Away: WR Edition', 'Longest single catch by one starting wide receiver — receivers only, not backs or tight ends', { tier: 2, agg: 'max', keys: ['rec_lng'], pos: ['WR'], unit: 'yd', core: true }),
-  A('house_bombs_qb', 'Bombs Away: QB Edition', 'Longest single completion by one starting quarterback, measured to where the play ended', { tier: 2, posTag: 'QB', agg: 'max', keys: ['pass_lng'], unit: 'yd', core: true }),
-  A('house_forrest_cops', 'Breakaway', 'Longest single carry by one starting running back — backs only', { tier: 2, agg: 'max', keys: ['rush_lng'], pos: ['RB'], unit: 'yd', core: true }),
+  A('rec_lng_wr', 'Bombs Away: WR Edition', 'Longest single catch by one starting wide receiver — receivers only, not backs or tight ends', { tier: 2, agg: 'max', keys: ['rec_lng'], pos: ['WR'], unit: 'yd', core: true }),
+  A('pass_lng', 'Bombs Away: QB Edition', 'Longest single completion by one starting quarterback, measured to where the play ended', { tier: 2, posTag: 'QB', agg: 'max', keys: ['pass_lng'], unit: 'yd', core: true }),
+  A('rush_lng_rb', 'Breakaway', 'Longest single carry by one starting running back — backs only', { tier: 2, agg: 'max', keys: ['rush_lng'], pos: ['RB'], unit: 'yd', core: true }),
   // The only prize Sleeper cannot answer: drive length is not one of its 228 stat keys, so this
   // one alone reaches for play-by-play via drives.js. It therefore has a failure mode none of
   // the others have — a missing nflverse release voids this card while every other prize still
   // settles. `--no-drives` skips it.
-  A('house_drive', 'Now Watch This Drive', 'The longest touchdown drive your starting quarterback marched — measured from where his offense first got the ball', { tier: 2, posTag: 'QB', pos: ['QB'], agg: 'drive', unit: 'yd' }),
+  A('drive_lng', 'Now Watch This Drive', 'The longest touchdown drive your starting quarterback marched — measured from where his offense first got the ball', { tier: 2, posTag: 'QB', pos: ['QB'], agg: 'drive', unit: 'yd' }),
 
   // ---- Kickers & defense ---------------------------------------------------------------
-  A('house_bigleg', 'Big Leg', 'Longest single field goal made by your starting kicker', { tier: 3, agg: 'max', keys: ['fgm_lng'], pos: ['K'], unit: 'yd', core: true }),
+  A('fgm_lng', 'Big Leg', 'Longest single field goal made by your starting kicker', { tier: 3, agg: 'max', keys: ['fgm_lng'], pos: ['K'], unit: 'yd', core: true }),
   A('fgm_yds', 'Leg Day', 'Every field goal your kicker made, distances added together', { tier: 3, agg: 'sum', keys: ['fgm_yds'], pos: ['K'], unit: 'yd', core: true }),
   A('fg_made', 'Automatic', 'Field goals made by your starting kicker', { tier: 3, agg: 'sum', keys: ['fgm'], pos: ['K'], unit: '' }),
   A('fg_50', 'Long Range', 'Field goals of 50 yards or more made by your starting kicker', { tier: 3, agg: 'sum', keys: ['fgm_50p'], pos: ['K'], unit: '' }),
   A('kick_pts', 'Leg Points', 'Every point your kicker put on the board — field goals and extra points together', { tier: 3, agg: 'sum', keys: ['kick_pts'], pos: ['K'], unit: '' }),
-  A('house_turnover', 'Turnover Machine', 'Interceptions plus fumble recoveries by your starting defense — ties go to the higher scoring defense', { tier: 3, agg: 'sum', keys: ['int', 'fum_rec'], pos: ['DEF'], unit: '', tiebreak: { agg: 'points', mode: 'max', keys: null }, core: true }),
+  A('def_takeaways', 'Turnover Machine', 'Interceptions plus fumble recoveries by your starting defense — ties go to the higher scoring defense', { tier: 3, agg: 'sum', keys: ['int', 'fum_rec'], pos: ['DEF'], unit: '', tiebreak: { agg: 'points', mode: 'max', keys: null }, core: true }),
   A('def_int', 'Ball Hawks', 'Interceptions by your starting defense', { tier: 3, agg: 'sum', keys: ['int'], pos: ['DEF'], unit: '' }),
-  A('house_sack', 'Sack Attack', 'Sacks by your starting defense', { tier: 3, agg: 'sum', keys: ['sack'], pos: ['DEF'], unit: '', core: true }),
+  A('def_sack', 'Sack Attack', 'Sacks by your starting defense', { tier: 3, agg: 'sum', keys: ['sack'], pos: ['DEF'], unit: '', core: true }),
   A('def_td', 'Defense Wins Championships', 'Touchdowns scored by your starting defense', { tier: 3, agg: 'sum', keys: ['def_td'], pos: ['DEF'], unit: '' }),
   A('def_pts', 'Defensive Points', 'Fantasy points scored by your starting defense', { tier: 3, agg: 'points', mode: 'sum', pos: ['DEF'], unit: 'pts' }),
   A('pts_allow', 'Bend Don’t Break', 'Points your starting defense gave up — fewest wins', { tier: 3, agg: 'sum', keys: ['pts_allow'], pos: ['DEF'], dir: 'asc', unit: '' }),
@@ -162,7 +165,7 @@ export const GLOSSARY = [
   A('bust_player', 'Individual Bust', 'The one starter who missed their own projection by the most', { tier: 6, agg: 'projDelta', mode: 'min', dir: 'asc', unit: 'pts', needsProj: true }),
 
   // ---- Lineup management ---------------------------------------------------------------
-  A('house_unsung', 'Unsung Hero', 'The single highest scoring player you left on your bench', { tier: 7, agg: 'bench', mode: 'beast', unit: 'pts', core: true }),
+  A('bench_best', 'Unsung Hero', 'The single highest scoring player you left on your bench', { tier: 7, agg: 'bench', mode: 'beast', unit: 'pts', core: true }),
   A('bench_pts', 'Points Left On The Bench', 'What your best legal lineup would have scored, minus what you actually started', { tier: 7, agg: 'bench', mode: 'left', unit: 'pts' }),
   A('optimal', 'Perfect Lineup', 'What your best legal lineup would have scored, bench included', { tier: 7, agg: 'bench', mode: 'optimal', unit: 'pts' }),
   A('efficiency', 'Lineup IQ', 'What you actually started as a share of your best possible lineup', { tier: 7, agg: 'bench', mode: 'pct', unit: '%' }),
@@ -189,7 +192,7 @@ const byId = new Map(GLOSSARY.map((a) => [a.id, a]));
 {
   const unknown = [...mentionedIds()].filter((id) => !byId.has(id));
   if (unknown.length) {
-    const near = (id) => GLOSSARY.filter((a) => a.id.includes(id.replace(/^house_/, '')) || id.includes(a.id)).map((a) => a.id).slice(0, 3);
+    const near = (id) => GLOSSARY.filter((a) => a.id.includes(id) || id.includes(a.id)).map((a) => a.id).slice(0, 3);
     const hints = unknown.map((id) => `  "${id}"${near(id).length ? `  (did you mean ${near(id).join(', ')}?)` : ''}`);
     throw new Error(`league.json names prizes that are not in the glossary:\n${hints.join('\n')}\nRun \`node setup.js --list\` to see every id.`);
   }

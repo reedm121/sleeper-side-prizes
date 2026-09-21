@@ -19,6 +19,7 @@ import { dirname } from 'node:path';
 import { AWARDS, PLAYED, HOUSE, TIERS, phaseTag, phaseHue } from './awards.js';
 import { badgeImg, badgeCSS, hasBadge } from './badges.js';
 import { LEAGUE } from './lib/league.js';
+import { canonicalLedger } from './lib/ids.js';
 
 const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
 
@@ -26,7 +27,7 @@ const LEDGER = 'wheel.json';
 let draws = [];
 let pending = [];
 try {
-  const led = JSON.parse(await readFile(LEDGER, 'utf8'));
+  const led = canonicalLedger(JSON.parse(await readFile(LEDGER, 'utf8')));
   draws = led.draws || [];
   pending = led.pending || [];
 } catch { draws = []; pending = []; }

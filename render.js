@@ -1560,7 +1560,9 @@ ${WHEEL_JS}
       +when.toLocaleString('en-US',{month:'short',day:'numeric',hour:'numeric',minute:'2-digit'})+'.' : '');
     state.className='wstate done';
     commit.textContent=doc.commit.slice(0,16);
-    proof.textContent='Sealed '+doc.pool.length+' prizes deep before anyone saw it. sha256("'+doc.pick+'|'+doc.nonce.slice(0,8)+'…") matches the hash published with this page.';
+    // The hash was made over the pick's id AS SEALED; after a rename the server hands that back
+    // as sealedPick, and the proof line has to name what was actually hashed.
+    proof.textContent='Sealed '+doc.pool.length+' prizes deep before anyone saw it. sha256("'+(doc.sealedPick||doc.pick)+'|'+doc.nonce.slice(0,8)+'…") matches the hash published with this page.';
   };
 
   // Sealing is idempotent and safe to fire on every load: the first one of the week draws a

@@ -4,32 +4,32 @@
   "timezone": "America/New_York",
   "houseLabel": "The House Prizes",
   "house": [
-    "house_high",
-    "house_closest"
+    "high_score",
+    "closest"
   ],
   "prizes": [
-    "house_notdead",
-    "house_unlucky",
-    "house_onmyback",
+    "swing_up",
+    "best_loser",
+    "share_of_team",
     "top_starter",
     "rec_yd",
     "pass_yd",
-    "house_forrest",
+    "rush_yd",
     "scrimmage",
-    "house_6god",
-    "house_stickies",
+    "td_rush_rec",
+    "rec",
     "rush_att",
     "td_lng",
-    "house_bombs_wr",
-    "house_bombs_qb",
-    "house_forrest_cops",
-    "house_bigleg",
+    "rec_lng_wr",
+    "pass_lng",
+    "rush_lng_rb",
+    "fgm_lng",
     "fgm_yds",
-    "house_turnover",
-    "house_sack",
-    "house_unsung"
+    "def_takeaways",
+    "def_sack",
+    "bench_best"
   ],
   "custom": {
-    "house_forrest": { "name": "Ground Game", "blurb": "Rushing yards added up across all your starters, quarterback scrambles included" }
+    "rush_yd": { "name": "Ground Game", "blurb": "Rushing yards added up across all your starters, quarterback scrambles included" }
   }
 }

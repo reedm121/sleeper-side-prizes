@@ -75,9 +75,9 @@ Everything that makes a deployment *your* league:
   "name":       "New Ro FFL",
   "timezone":   "America/New_York",
   "houseLabel": "The House Prizes",
-  "house":      ["house_high", "house_closest"],
+  "house":      ["high_score", "closest"],
   "prizes":     ["rec_yd", "pass_yd", "td_lng"],
-  "custom":     { "house_forrest": { "name": "Run Forrest Run" } }
+  "custom":     { "rush_yd": { "name": "Run Forrest Run" } }
 }
 ```
 
@@ -87,7 +87,7 @@ Everything that makes a deployment *your* league:
 - `name`, `timezone` — the masthead and the clock the pages read dates in.
 - `house` — prizes listed first under `houseLabel`. Can be empty.
 - `prizes` — the rest of what you play for, or the string `"all"`.
-- `custom` — your own `name` and/or `blurb` for any prize. The glossary calls `house_forrest`
+- `custom` — your own `name` and/or `blurb` for any prize. The glossary calls `rush_yd`
   "Ground Game"; the league it was built for calls it "Run Forrest Run".
 
 Edit it by hand or re-run `npm run setup`, which keeps your `custom` names.

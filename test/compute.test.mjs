@@ -83,16 +83,16 @@ const badVoid = voided.filter((v) => !mayVoid.has(v.split(' ')[0]));
 ok('nothing voids that the fixture gives an answer for', !badVoid.length, badVoid.join(', '));
 
 // Team score & matchup
-ok('Scoreboard: highest total', win('house_high') === 'Team 1' && val('house_high') === 150);
+ok('Scoreboard: highest total', win('high_score') === 'Team 1' && val('high_score') === 150);
 ok('The Basement: lowest total', win('low_score') === 'Team 2' && val('low_score') === 100);
-ok('Not Dead Yet: biggest climb', win('house_notdead') === 'Team 1' && val('house_notdead') === 50);
-ok('Crash and Burn: biggest fall', win('house_crash') === 'Team 2' && val('house_crash') === -30);
-ok('Unlucky Schedule: best loser', win('house_unlucky') === 'Team 4' && val('house_unlucky') === 118);
+ok('Not Dead Yet: biggest climb', win('swing_up') === 'Team 1' && val('swing_up') === 50);
+ok('Crash and Burn: biggest fall', win('swing_down') === 'Team 2' && val('swing_down') === -30);
+ok('Unlucky Schedule: best loser', win('best_loser') === 'Team 4' && val('best_loser') === 118);
 ok('Escape Artist: worst winner', win('escape') === 'Team 3' && val('escape') === 120);
-ok('Photo Finish: smallest gap, split', val('house_closest') === 2 && top('house_closest').split.length === 2 && top('house_closest').split.includes('Team 3'));
+ok('Photo Finish: smallest gap, split', val('closest') === 2 && top('closest').split.length === 2 && top('closest').split.includes('Team 3'));
 ok('Curb Stomp: widest margin', win('blowout') === 'Team 1' && val('blowout') === 50);
 ok('Shootout: most combined, split', val('shootout') === 250 && top('shootout').split.includes('Team 1'));
-ok('Carried: biggest share', win('house_onmyback') === 'Team 4' && val('house_onmyback') === 89);
+ok('Carried: biggest share', win('share_of_team') === 'Team 4' && val('share_of_team') === 89);
 ok('Flex Appeal: flex slot points only', win('flex') === 'Team 1' && val('flex') === 11);
 
 // Big ones
@@ -100,9 +100,9 @@ ok('Highest-Scoring Starter', win('top_starter') === 'Team 4' && val('top_starte
 ok('Quarterback Room: QB points', win('qb_pts') === 'Team 1' && val('qb_pts') === 30);
 ok('Air Raid: rec yards summed', win('rec_yd') === 'Team 1' && val('rec_yd') === 190);
 ok('Gunslinger: pass yards', win('pass_yd') === 'Team 1' && val('pass_yd') === 300);
-ok('Ground Game: rush yards incl. QB', win('house_forrest') === 'Team 1' && val('house_forrest') === 140);
+ok('Ground Game: rush yards incl. QB', win('rush_yd') === 'Team 1' && val('rush_yd') === 140);
 ok('Touchdown Passes', win('pass_td') === 'Team 1' && val('pass_td') === 3);
-ok('Touchdown Club: rush+rec TDs', win('house_6god') === 'Team 1' && val('house_6god') === 2);
+ok('Touchdown Club: rush+rec TDs', win('td_rush_rec') === 'Team 1' && val('td_rush_rec') === 2);
 ok('Chain Movers: rush+rec first downs', win('first_downs') === 'Team 1' && val('first_downs') === 11);
 ok('Bell Cow: most carries by one RB', win('rush_att') === 'Team 1' && val('rush_att') === 22);
 ok('Workhorse: most rush yards by one RB', win('rush_yd_one') === 'Team 1' && val('rush_yd_one') === 120);
@@ -114,20 +114,20 @@ ok('Pass-Catching Back: RB catches (flex RB counts)', win('rb_rec') === 'Team 2'
 ok('Century Club: 100-yard starters', win('hundred') === 'Team 1' && val('hundred') === 2);
 ok('Everybody Eats: starters who scored', win('scorers') === 'Team 1' && val('scorers') === 2);
 ok('Longest Touchdown: carrier credited', win('td_lng') === 'Team 1' && val('td_lng') === 50);
-ok('Bombs Away WR', win('house_bombs_wr') === 'Team 1' && val('house_bombs_wr') === 50);
-ok('Bombs Away QB', win('house_bombs_qb') === 'Team 1' && val('house_bombs_qb') === 60);
-ok('Breakaway', win('house_forrest_cops') === 'Team 1' && val('house_forrest_cops') === 45);
-ok('Now Watch This Drive: from play-by-play', win('house_drive') === 'Team 1' && val('house_drive') === 92);
+ok('Bombs Away WR', win('rec_lng_wr') === 'Team 1' && val('rec_lng_wr') === 50);
+ok('Bombs Away QB', win('pass_lng') === 'Team 1' && val('pass_lng') === 60);
+ok('Breakaway', win('rush_lng_rb') === 'Team 1' && val('rush_lng_rb') === 45);
+ok('Now Watch This Drive: from play-by-play', win('drive_lng') === 'Team 1' && val('drive_lng') === 92);
 
 // Kickers & defense
-ok('Big Leg', win('house_bigleg') === 'Team 1' && val('house_bigleg') === 52);
+ok('Big Leg', win('fgm_lng') === 'Team 1' && val('fgm_lng') === 52);
 ok('Leg Day', win('fgm_yds') === 'Team 1' && val('fgm_yds') === 130);
 ok('Automatic', win('fg_made') === 'Team 1' && val('fg_made') === 3);
 ok('Leg Points', win('kick_pts') === 'Team 1' && val('kick_pts') === 12);
-ok('Turnover Machine: level on 3, settled by DEF points', win('house_turnover') === 'Team 3' && val('house_turnover') === 3);
-ok('Turnover Machine: tie goes to the higher-scoring DEF', R.house_turnover.tieBroken === 'DEF points' && R.house_turnover.rows[1].team === 'Team 1');
+ok('Turnover Machine: level on 3, settled by DEF points', win('def_takeaways') === 'Team 3' && val('def_takeaways') === 3);
+ok('Turnover Machine: tie goes to the higher-scoring DEF', R.def_takeaways.tieBroken === 'DEF points' && R.def_takeaways.rows[1].team === 'Team 1');
 ok('Ball Hawks', win('def_int') === 'Team 1' && val('def_int') === 2);
-ok('Sack Attack', win('house_sack') === 'Team 1' && val('house_sack') === 4);
+ok('Sack Attack', win('def_sack') === 'Team 1' && val('def_sack') === 4);
 ok('Defensive Points', win('def_pts') === 'Team 4' && val('def_pts') === 105);
 ok('Bend Don’t Break: fewest allowed', win('pts_allow') === 'Team 1' && val('pts_allow') === 10);
 ok('Brick Wall: fewest yards allowed', win('yds_allow') === 'Team 1' && val('yds_allow') === 250);
@@ -146,7 +146,7 @@ ok('Individual Boom', win('boom') === 'Team 4' && top('boom').detail[0].name ===
 
 // Lineup management. Team 2 benched a 24-point RB: the best lineup starts him at RB and moves the
 // 18-point back to FLEX over the 6-point receiver, so it left 18 on the bench (118 possible).
-ok('Unsung Hero: best bench score', win('house_unsung') === 'Team 2' && val('house_unsung') === 24);
+ok('Unsung Hero: best bench score', win('bench_best') === 'Team 2' && val('bench_best') === 24);
 ok('Points Left On The Bench', win('bench_pts') === 'Team 2' && val('bench_pts') === 18);
 ok('Perfect Lineup', win('optimal') === 'Team 1' && val('optimal') === 150);
 ok('Lineup IQ: share of the best lineup', val('efficiency') === 100 && R.efficiency.rows.find((r) => r.team === 'Team 2').value === 84.7);

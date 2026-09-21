@@ -1,6 +1,6 @@
 [
   {
-    "id": "house_high",
+    "id": "high_score",
     "name": "Scoreboard",
     "blurb": "Every one of your ten starters added up — highest team score of the week",
     "original": true,
@@ -8,10 +8,10 @@
     "group": "Team",
     "color": "#FFC93C",
     "number": 1,
-    "file": "images/house_high.png"
+    "file": "images/high_score.png"
   },
   {
-    "id": "house_crash",
+    "id": "swing_down",
     "name": "Crash and Burn",
     "blurb": "Your team score this week minus last week — the biggest fall",
     "original": true,
@@ -19,10 +19,10 @@
     "group": "Team",
     "color": "#FFC93C",
     "number": 2,
-    "file": "images/house_crash.png"
+    "file": "images/swing_down.png"
   },
   {
-    "id": "house_notdead",
+    "id": "swing_up",
     "name": "Not Dead Yet",
     "blurb": "Your team score this week minus last week — the biggest climb",
     "original": true,
@@ -30,10 +30,10 @@
     "group": "Team",
     "color": "#FFC93C",
     "number": 3,
-    "file": "images/house_notdead.png"
+    "file": "images/swing_up.png"
   },
   {
-    "id": "house_unlucky",
+    "id": "best_loser",
     "name": "Unlucky Schedule",
     "blurb": "Of the six teams that lost their matchup, the one that scored most",
     "original": true,
@@ -41,10 +41,10 @@
     "group": "Team",
     "color": "#FFC93C",
     "number": 4,
-    "file": "images/house_unlucky.png"
+    "file": "images/best_loser.png"
   },
   {
-    "id": "house_closest",
+    "id": "closest",
     "name": "Photo Finish",
     "blurb": "The matchup decided by the smallest margin — both teams split it",
     "original": true,
@@ -52,10 +52,10 @@
     "group": "Team",
     "color": "#FFC93C",
     "number": 5,
-    "file": "images/house_closest.png"
+    "file": "images/closest.png"
   },
   {
-    "id": "house_forrest",
+    "id": "rush_yd",
     "name": "Run Forrest Run",
     "blurb": "Rushing yards added up across all ten starters, quarterback scrambles included",
     "original": true,
@@ -63,10 +63,10 @@
     "group": "RB",
     "color": "#49E8CC",
     "number": 6,
-    "file": "images/house_forrest.png"
+    "file": "images/rush_yd.png"
   },
   {
-    "id": "house_forrest_shrimp",
+    "id": "rush_yd_shrimp",
     "name": "Run Forrest Run · Shrimp variant",
     "blurb": "Rushing yards added up across all ten starters, quarterback scrambles included",
     "original": true,
@@ -74,12 +74,12 @@
     "group": "RB",
     "color": "#49E8CC",
     "number": 31,
-    "file": "images/house_forrest_shrimp.png",
-    "awardId": "house_forrest",
+    "file": "images/rush_yd_shrimp.png",
+    "awardId": "rush_yd",
     "variant": true
   },
   {
-    "id": "house_unsung",
+    "id": "bench_best",
     "name": "Unsung Hero",
     "blurb": "The single highest scoring player you left on your bench",
     "original": true,
@@ -87,10 +87,10 @@
     "group": "Team",
     "color": "#FFC93C",
     "number": 7,
-    "file": "images/house_unsung.png"
+    "file": "images/bench_best.png"
   },
   {
-    "id": "house_bombs_wr",
+    "id": "rec_lng_wr",
     "name": "Bombs Away: WR Edition",
     "blurb": "Longest single catch by one starting wide receiver — receivers only, not backs or tight ends",
     "original": true,
@@ -98,10 +98,10 @@
     "group": "WR",
     "color": "#49D0EE",
     "number": 8,
-    "file": "images/house_bombs_wr.png"
+    "file": "images/rec_lng_wr.png"
   },
   {
-    "id": "house_bigleg",
+    "id": "fgm_lng",
     "name": "Big Leg",
     "blurb": "Longest single field goal made by your starting kicker",
     "original": true,
@@ -109,10 +109,10 @@
     "group": "K",
     "color": "#B7C1EE",
     "number": 9,
-    "file": "images/house_bigleg.png"
+    "file": "images/fgm_lng.png"
   },
   {
-    "id": "house_turnover",
+    "id": "def_takeaways",
     "name": "Turnover Machine",
     "blurb": "Interceptions plus fumble recoveries by your starting defense — ties go to the higher scoring defense",
     "original": true,
@@ -120,10 +120,10 @@
     "group": "DEF",
     "color": "#E8751A",
     "number": 10,
-    "file": "images/house_turnover.png"
+    "file": "images/def_takeaways.png"
   },
   {
-    "id": "house_sack",
+    "id": "def_sack",
     "name": "Sack Attack",
     "blurb": "Sacks by your starting defense",
     "original": true,
@@ -131,10 +131,10 @@
     "group": "DEF",
     "color": "#E8751A",
     "number": 11,
-    "file": "images/house_sack.png"
+    "file": "images/def_sack.png"
   },
   {
-    "id": "house_stickies",
+    "id": "rec",
     "name": "Stickies",
     "blurb": "Catches added up across all ten starters",
     "original": true,
@@ -142,10 +142,10 @@
     "group": "WR",
     "color": "#49D0EE",
     "number": 12,
-    "file": "images/house_stickies.png"
+    "file": "images/rec.png"
   },
   {
-    "id": "house_6god",
+    "id": "td_rush_rec",
     "name": "6 God(s)",
     "blurb": "Rushing and receiving touchdowns added up across all ten starters — passing touchdowns do not count",
     "original": true,
@@ -153,10 +153,10 @@
     "group": "Team",
     "color": "#FFC93C",
     "number": 13,
-    "file": "images/house_6god.png"
+    "file": "images/td_rush_rec.png"
   },
   {
-    "id": "house_bombs_qb",
+    "id": "pass_lng",
     "name": "Bombs Away: QB Edition",
     "blurb": "Longest single completion by one starting quarterback, measured to where the play ended",
     "original": true,
@@ -164,10 +164,10 @@
     "group": "QB",
     "color": "#FF80AD",
     "number": 14,
-    "file": "images/house_bombs_qb.png"
+    "file": "images/pass_lng.png"
   },
   {
-    "id": "house_onmyback",
+    "id": "share_of_team",
     "name": "Put The Team On My Back (Greg Jennings)",
     "blurb": "One starter’s points as a share of their whole team’s score",
     "original": true,
@@ -175,10 +175,10 @@
     "group": "Team",
     "color": "#FFC93C",
     "number": 15,
-    "file": "images/house_onmyback.png"
+    "file": "images/share_of_team.png"
   },
   {
-    "id": "house_forrest_cops",
+    "id": "rush_lng_rb",
     "name": "Running From The Cops Speed",
     "blurb": "Longest single carry by one starting running back — backs only",
     "original": true,
@@ -186,10 +186,10 @@
     "group": "RB",
     "color": "#49E8CC",
     "number": 16,
-    "file": "images/house_forrest_cops.png"
+    "file": "images/rush_lng_rb.png"
   },
   {
-    "id": "house_drive",
+    "id": "drive_lng",
     "name": "Now Watch This Drive",
     "blurb": "The longest touchdown drive your starting quarterback marched — measured from where his offense first got the ball",
     "original": true,
@@ -197,7 +197,7 @@
     "group": "QB",
     "color": "#FF80AD",
     "number": 17,
-    "file": "images/house_drive.png"
+    "file": "images/drive_lng.png"
   },
   {
     "id": "rec_yd",
