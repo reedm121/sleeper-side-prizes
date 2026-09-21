@@ -139,9 +139,29 @@ decide is who gets to look first, which is a question about your group chat, not
 Without replacement: a prize drawn in week 3 is off the wheel for the rest of the season, and
 `/awards` shows what is still up.
 
+## You do not have to deploy it
+
+A league can run this on the manager's laptop and never put it online. `npm start` once, then
+each Tuesday:
+
+```sh
+npm run week
+```
+
+That finds the newest finished week, fetches headshots if Python and Pillow are installed,
+builds the page, and opens it. The wheel works exactly as it does online — sealed the first time
+the page loads, opened when you spin — against a file in `.data/` instead of a database, so the
+spin is recorded and the season's no-repeat rule holds from week to week on that machine. Tick
+**Record it** before you spin and you get a video of the spin to drop in the group chat, with your
+camera in the corner if you like. Chrome only for the recorder.
+
+What you give up by staying local: nobody else can open the page, the prize board and archive
+live only on your machine, and the spin is the manager's alone rather than whoever gets there
+first. What you skip: the next section entirely.
+
 ## Deploying
 
-The site is static pages plus two tiny API routes, built for [Vercel](https://vercel.com) with
+For a league that wants the pages online, the site is static pages plus two tiny API routes, built for [Vercel](https://vercel.com) with
 an [Upstash](https://upstash.com) Redis store for the shortlist votes and the sealed draws.
 
 1. Push your repository (with your `league.json`) to GitHub and import it at

@@ -6,6 +6,7 @@
   "description": "Weekly side-prize leaderboards, a sealed prize wheel and a prize board for any Sleeper fantasy football league.",
   "scripts": {
     "start": "node setup.js",
+    "week": "node week.js",
     "setup": "node setup.js",
     "build": "node site.js",
     "report": "node build.js",
