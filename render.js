@@ -1036,7 +1036,7 @@ ${WHEEL_CSS}
     <div class="mast-inner">
       <div class="wknum">${week}</div>
       <div class="mast-copy">
-        <div class="eyebrow">${esc(leagueInfo.name)} &middot; Side Prizes</div>
+        <div class="eyebrow">${esc(LEAGUE.name || leagueInfo.name)} &middot; Side Prizes</div>
         <h1>Week ${week}</h1>
         <div class="subline">
           <b>${season} regular season</b>

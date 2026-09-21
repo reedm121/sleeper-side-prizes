@@ -9,6 +9,7 @@
 //   node build.js --week 2 --text                        print to the terminal instead of HTML
 //   node build.js --week 2 --no-drives                   skip the one award that needs play-by-play
 //   node build.js --week 2 --demo                        a page whose wheel can be spun for real
+//   node build.js --week 2 --demo --fake-names           ...with made-up team names, for a screenshot
 //
 // --demo is for showing the league how Tuesday works. The page still reports the week honestly,
 // but its wheel grows a button that spins to a random prize out of that week's pool and shows
@@ -145,6 +146,18 @@ let playersDex = null;
 try { playersDex = await api.players(fresh); } catch { console.error('  player dictionary unavailable; bench awards may be partial'); }
 
 const ctx = buildTeams({ leagueInfo, rosters, users, matchups, statRows, projRows, playersDex });
+
+// A page to show strangers: the real week's real numbers under made-up team names, so a
+// screenshot or a shared demo says nothing about who is in the league. Names go on by roster
+// order, before anything is computed, so every board, the wheel and the ledger agree.
+if (has('fake-names')) {
+  const FAKE = ['Hail Mary Poppins', 'Kelce Grammer', 'Dak to the Future', 'Hurts So Good', 'Bijan Mustard', 'Mahomes Alone',
+    'Saquon for the Team', 'Goff Balls', 'Nacua Matata', 'Fields of Dreams', 'Waddle Waddle', 'Baby Got Dak',
+    'Lamb Chops', 'Chubb Hub', 'Pitts and Giggles', 'Stroud Boys'];
+  ctx.teams.slice().sort((a, b) => a.rosterId - b.rosterId)
+    .forEach((t, i) => { t.name = FAKE[i % FAKE.length] + (i >= FAKE.length ? ` ${Math.floor(i / FAKE.length) + 1}` : ''); t.ownerId = null; });
+  leagueInfo.name = LEAGUE.name;
+}
 ctx.scoring = leagueInfo.scoring_settings;
 ctx.hasProjections = projRows.length > 0;
 ctx.drives = drives;

@@ -1,29 +1,99 @@
-# Sleeper Side Prizes
+# 🏈 Sleeper Side Prizes
 
-Weekly side-prize leaderboards, a sealed prize wheel and a season prize board for any
-[Sleeper](https://sleeper.com) fantasy football league. Give it your league id, pick the prizes
-you want to play for out of a glossary of 84, and every Tuesday it publishes a page that says who
-won what — computed from each team's **locked starters** for that week, off Sleeper's public
-read-only API. No key, no login, no dependencies.
+**Weekly side bets for your [Sleeper](https://sleeper.com) fantasy football league, handled.**
 
-Built for one twelve-team league (New Ro FFL) and used there since 2025. Anything about that
-league now lives in one file, `league.json`, so it can be yours instead.
+Every league has the main event. This is the sideshow: a little prize each week for something
+glorious or embarrassing. Longest touchdown. Closest matchup. Most points left rotting on your
+bench. This figures out who won **every one of them**, spins a wheel to decide which prize pays
+out this week, and gives your league a page to argue about.
 
-## What you get
+<p align="center">
+  <img src="docs/img/spin.gif" width="600" alt="A prize wheel spins, slows down and lands on a prize called Not Dead Yet, and the week's standings for that prize appear underneath.">
+</p>
 
-| Path | What |
+Free. No Sleeper password. Nothing to install except one app. Your league-mates just get a link.
+
+## 🎡 How it works
+
+1. **You tell it your league.** One number from your Sleeper league's web address. It looks the
+   league up and shows you your own teams back, so you know it found the right one.
+2. **You pick your prizes.** There are **84** to choose from, from the classics to the petty.
+   Rename any of them to your league's inside jokes.
+3. **Every Tuesday it does the math.** It reads the lineups everyone *actually started* and the
+   real box scores, and ranks every team for every prize. No spreadsheets, no scrolling twelve
+   rosters in the app.
+4. **Somebody spins the wheel.** One prize pays out each week, and nobody knows which until the
+   spin. The pick is locked in before anyone can see it, so it cannot be rigged or re-rolled. Not
+   even by the commissioner. Especially not by the commissioner.
+5. **You settle up.** The site says who won. It never touches money; that part is still Venmo
+   and trash talk.
+
+## 👀 What your league sees
+
+**The weekly page.** The wheel, what it landed on, and the full standings for that prize, with
+the players who put the numbers there.
+
+<p align="center"><img src="docs/img/wheel.webp" width="820" alt="The weekly page after a spin: the wheel has landed on a prize called Carried, the winning team is shown with its score of 30.4 percent, and all twelve teams are ranked beside it with the player responsible for each score."></p>
+
+**Every other prize, scored anyway.** Just for bragging rights: who *would* have won each one.
+
+<p align="center"><img src="docs/img/boards.webp" width="820" alt="A grid of cards, one per prize, such as Scoreboard, Photo Finish and Not Dead Yet. Each card shows the top three teams and their numbers."></p>
+
+| The prize list | The season board |
 |---|---|
-| `/` | **This week** — the newest finished week: the wheel, what it paid, and every board; a holding card while a week is still being played |
-| `/weeks/2026-week-3` | One week's stat sheet: every prize you play for, ranked, with the players who put the number there |
-| `/awards` | The prize board: everything in play this season, which week each one paid, and who took it |
-| `/prizes` | The prize list: what you play for, grouped by part of the game or by what it measures |
-| `/archive` | Every week, newest first |
-| `/shortlist` | A checklist of every prize in the glossary you do *not* play for, for the league to vote on |
-| `/admin` | The manager's dashboard: pick the prizes, star the house ones, rename anything, set the name. Password from the environment |
+| <img src="docs/img/prizes.webp" alt="The prize list page: each prize with its badge, name, a one-line explanation and how ties are broken."> | <img src="docs/img/board.webp" alt="The season prize board: how many prizes are in play, won and still up, with the weeks already settled and who took each one."> |
+| What you play for, explained in one line each | What has been won, by whom, and what is still on the wheel |
 
-One prize a week is drawn **by a wheel**, from the prizes that actually scored that week, and
-never drawn twice in a season. The pick is sealed on the server behind a published hash before
-anyone can see it, and opened when someone spins. See [The wheel](#the-wheel).
+| The manager's dashboard | On a phone |
+|---|---|
+| <img src="docs/img/admin.webp" alt="The manager's settings page: fields for the league name and timezone, and a checklist of prizes with a tick box, a House button and a Rename button on each."> | <p align="center"><img src="docs/img/phone.webp" width="260" alt="The prize list on a phone screen, laid out in a single readable column."></p> |
+| Tick prizes on and off, rename them, no code | Everything works on the thing people will actually open it on |
+
+*(Team names in these pictures are made up. The numbers are a real week of football.)*
+
+## 🏆 A taste of the 84 prizes
+
+| | | |
+|---|---|---|
+| 👑 **Scoreboard** — highest score of the week | 📸 **Photo Finish** — closest matchup, both teams split it | 🧟 **Not Dead Yet** — biggest jump from last week |
+| 🚀 **Bombs Away** — longest catch or completion | 🦵 **Big Leg** — longest field goal | 🐄 **Bell Cow** — most carries by one back |
+| 🎒 **Carried** — one player's share of your whole score | 🪑 **Unsung Hero** — best player you left on the bench | 😬 **Unlucky Schedule** — best score that still lost |
+| 🧱 **Brick Wall** — fewest yards allowed | 🙌 **Turnover Machine** — picks plus fumble recoveries | 💯 **Century Club** — most 100-yard starters |
+| 🧈 **Butterfingers** — most fumbles | ⚰️ **Corpse In The Lineup** — the zero you started | 🧠 **Lineup IQ** — how close you got to your best lineup |
+
+Shame prizes, projection prizes, kicker prizes, defense prizes. See them all with `node setup.js --list`, or on the dashboard.
+
+## 🙋 Questions people ask
+
+**Do I need to be technical?**
+If you can install an app and copy a number, you can run it. Setup is one command that asks you
+questions in plain English, and pressing Enter takes the suggested answer every time.
+
+**Does it cost anything?**
+No. It is free and open source. If you put it online, the hosting it uses has a free tier that a
+fantasy league will never outgrow.
+
+**Do I have to put it online?**
+No. The commissioner can run it on a laptop, spin the wheel there, and drop the video in the
+group chat. It records the spin for you. Putting it online just means everyone gets a link.
+
+**Does it need my Sleeper password? Can it mess with my league?**
+No and no. It only *reads* what Sleeper already shows publicly: lineups, scores and stats. It
+cannot change anything.
+
+**Can the wheel be rigged?**
+No. The prize is chosen and locked the moment the week's page first loads, and a scrambled
+fingerprint of it is published right then. When someone spins, the prize is revealed along with
+the key that proves it matches that fingerprint. Nobody can swap it afterwards, and nobody can
+peek early.
+
+**Is this made by Sleeper?**
+No. It is an independent fan project that uses Sleeper's public data. Not affiliated with or
+endorsed by Sleeper.
+
+---
+
+# 🛠️ Setting it up
 
 ## Quick start
 
@@ -277,6 +347,7 @@ lib/store.js    Upstash in production, a file in dev
 dev.js          local preview with working API routes
 wheel.json      the season ledger: what each week drew and who won it
 test/           npm test
+scripts/        screenshots.mjs + gif.py: retake the README's pictures (fake team names, no faces)
 ```
 
 [PLAN.md](PLAN.md) is the original design investigation — why the API beats scraping, and the
