@@ -248,6 +248,7 @@ if (wantPreview) {
     const here = new URL('.', import.meta.url).pathname;
     const run = (script, args) => execFileSync(process.execPath, [join(here, script), ...args], { stdio: 'inherit', env });
     try {
+      run('config.js', ['pull']);
       run('build.js', [...target.args, '--no-drives']);
       run('site.js', []);
     } catch {

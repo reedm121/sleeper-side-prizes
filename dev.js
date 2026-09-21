@@ -25,6 +25,7 @@ import { readFile } from 'node:fs/promises';
 import { extname, join, normalize } from 'node:path';
 import handler from './api/state.js';
 import wheelHandler from './api/wheel.js';
+import configHandler from './api/config.js';
 
 // Nothing to serve until something has been built. Say so, and say what to run.
 if (!existsSync('public')) {
@@ -84,6 +85,11 @@ const handle = async (req, res) => {
   if (url.pathname === '/api/wheel') {
     await shim(req, res);
     return wheelHandler(req, res);
+  }
+
+  if (url.pathname === '/api/config') {
+    await shim(req, res);
+    return configHandler(req, res);
   }
 
   // cleanUrls, the same as Vercel does it.

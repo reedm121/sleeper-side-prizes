@@ -19,6 +19,7 @@ league now lives in one file, `league.json`, so it can be yours instead.
 | `/prizes` | The prize list: what you play for, grouped by part of the game or by what it measures |
 | `/archive` | Every week, newest first |
 | `/shortlist` | A checklist of every prize in the glossary you do *not* play for, for the league to vote on |
+| `/admin` | The manager's dashboard: pick the prizes, star the house ones, rename anything, set the name. Password from the environment |
 
 One prize a week is drawn **by a wheel**, from the prizes that actually scored that week, and
 never drawn twice in a season. The pick is sealed on the server behind a published hash before
@@ -91,6 +92,39 @@ Everything that makes a deployment *your* league:
   "Ground Game"; the league it was built for calls it "Run Forrest Run".
 
 Edit it by hand or re-run `npm run setup`, which keeps your `custom` names.
+
+## The manager's dashboard
+
+`/admin` is the same choices as `league.json`, in a page: tick the prizes the league plays for,
+star the **house** ones, rename any prize to what your league calls it, and set the name on the
+masthead. The shortlist's votes show beside each prize, so the manager can see what the league
+asked for while deciding.
+
+What it saves lives in the site's store, and `config.js pull` writes it over `league.json` before
+every build. So a change takes effect at the **next build**: Tuesday morning online, `npm run week`
+on a laptop, or the **Rebuild now** button.
+
+Who may save:
+
+| Where it runs | Rule |
+|---|---|
+| Your laptop (`npm start`, `npm run week`) | Open. Whoever is at the keyboard is the manager |
+| Deployed, `ADMIN_PASS` set | The password, typed once per browser tab |
+| Deployed, no `ADMIN_PASS` | Locked. The page says what to set. Nobody reconfigures a league from a public URL because a step was skipped |
+
+Reading is always open; what a league plays for is on `/prizes` anyway.
+
+Environment variables, all optional:
+
+| Variable | What |
+|---|---|
+| `ADMIN_PASS` | The manager's password. Or `ADMIN_PASS_SHA256` with its hash, if you would rather not paste the plain text into a dashboard field |
+| `DEPLOY_HOOK` | A Vercel deploy hook URL (project **Settings → Git → Deploy Hooks**). Turns on **Rebuild now**; without it the Tuesday build picks changes up |
+| `SITE_URL` | Only for the GitHub Actions workflow, and only until the first save from `/admin`, which records the site's address in `league.json` itself. Lets the Tuesday build fetch the manager's choices without database credentials |
+
+`league.json` is still the source of truth for anyone who prefers a file: `node config.js push`
+sends the file to the store, `node config.js pull` brings the store back to the file, and
+`node config.js show` prints what a build would use.
 
 ## The glossary
 
@@ -170,8 +204,10 @@ an [Upstash](https://upstash.com) Redis store for the shortlist votes and the se
 2. In the project's **Storage** tab, create an Upstash Redis store (free tier) and connect it.
    That injects the REST URL and token; `lib/store.js` finds them by shape, whatever Vercel
    names them.
-3. Redeploy. Without a store, `/api/state` and `/api/wheel` return 503 and both pages say so
-   rather than pretending to save.
+3. Under **Environment Variables**, set `ADMIN_PASS` to the manager's password so `/admin` can
+   save. Optional: `DEPLOY_HOOK` from **Settings → Git → Deploy Hooks** for a Rebuild-now button.
+4. Redeploy. Without a store, `/api/state`, `/api/wheel` and `/api/config` return 503 and the
+   pages say so rather than pretending to save.
 
 ### The Tuesday workflow
 
@@ -230,6 +266,11 @@ site.js         weeks/ + the other pages -> public/; newest week becomes /
 master.js       the prize board: what is in play, what has been won
 prizes.js       the prize list
 shortlist.js    the checklist of prizes not yet played for
+admin.js        the manager's dashboard
+config.js       store <-> league.json; `pull` runs before every build
+api/config.js   read and save the manager's settings; rebuild
+lib/admin.js    who may save: password from the environment, or open on a laptop
+lib/ids.js      renamed prize ids and the aliases that keep old ones resolving
 api/wheel.js    seal a week's prize; open it when someone spins
 api/state.js    the shortlist's shared votes
 lib/store.js    Upstash in production, a file in dev
@@ -245,7 +286,8 @@ scoring.
 ## Keeping up with the template
 
 If you cloned this to run your own league, your repository is the template plus three things of
-your own: `league.json`, `weeks/`, and `wheel.json`. Pull the template to pick up new prizes and
+your own: `league.json`, `weeks/`, and `wheel.json` (and whatever the manager saved on `/admin`,
+which lives in your store, not in git). Pull the template to pick up new prizes and
 fixes; those three files are never in it, so the merge cannot touch them:
 
 ```sh

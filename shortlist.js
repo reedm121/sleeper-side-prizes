@@ -265,6 +265,7 @@ const JS = String.raw`
 
     h += '<footer><p>Every prize here is computed from each team\'s actual locked starters for the week, '
       + 'so anything marked yes can go live immediately &mdash; no manual scoring.</p>'
+      + '<p>These are votes. The manager decides what is actually played for on <a href="/admin">/admin</a>, where each vote shows beside its prize.</p>'
       + '<p id="stamp"></p></footer>';
 
     document.getElementById('app').innerHTML = h;

@@ -523,6 +523,7 @@ try {
 execFileSync(process.execPath, ['shortlist.js', join(OUT, 'shortlist.html')], { stdio: 'inherit' });
 execFileSync(process.execPath, ['master.js', join(OUT, 'awards.html')], { stdio: 'inherit' });
 execFileSync(process.execPath, ['prizes.js', join(OUT, 'prizes.html')], { stdio: 'inherit' });
+execFileSync(process.execPath, ['admin.js', join(OUT, 'admin.html')], { stdio: 'inherit' });
 
 const prize = await draws();
 const archive = archiveHTML(list, prize);

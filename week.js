@@ -36,6 +36,7 @@ if (hasPillow) {
   console.error('  (no Python/Pillow, so no headshots — pip install Pillow to get faces on the page)');
 }
 
+node('config.js', ['pull']);   // what the manager set on /admin, if anything
 node('build.js', ['--season', season, '--week', week]);
 node('site.js');
 

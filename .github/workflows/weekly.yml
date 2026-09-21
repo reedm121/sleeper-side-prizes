@@ -50,6 +50,14 @@ jobs:
       - name: Install Pillow
         run: pip install --quiet Pillow
 
+      # What the manager set on /admin, fetched from the deployed site's public API (this runner
+      # has no database credentials). Needs league.json to name the site, which /admin fills in on
+      # its first save; until then league.json stands as committed. Never fails the run.
+      - name: Pull the manager's settings
+        run: node config.js pull
+        env:
+          SITE_URL: ${{ vars.SITE_URL }}
+
       # build.js reads league.json (or LEAGUE_ID) itself; this only makes the id visible to the
       # one step that is not build.js.
       - name: Resolve the league
@@ -122,7 +130,7 @@ jobs:
           # wheel.json as well as the page: the build records the week's eligible prizes and
           # what each would pay there, and the prize board is built from that file. Leaving it
           # behind means a week the league can spin for that the board never lists.
-          git add "$f" wheel.json
+          git add "$f" wheel.json league.json
           if git diff --cached --quiet; then
             echo "No change."
           else
