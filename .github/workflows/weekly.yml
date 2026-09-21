@@ -7,7 +7,12 @@ name: Weekly report
 # without a commit. The Tuesday push keeps this alive in season; re-enable it each August.
 on:
   schedule:
+    # Three chances, not one. GitHub runs scheduled jobs late under load — hours late on a busy
+    # Tuesday morning — and sometimes not at all. The job skips itself when the week's page is
+    # already committed, so the later two cost nothing when the first one ran.
     - cron: '5 13 * * 2'
+    - cron: '5 15 * * 2'
+    - cron: '5 18 * * 2'
   workflow_dispatch:
     inputs:
       week:
