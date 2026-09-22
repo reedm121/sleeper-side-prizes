@@ -281,7 +281,7 @@ an [Upstash](https://upstash.com) Redis store for the shortlist votes and the se
 
 ### The Tuesday workflow
 
-[`.github/workflows/weekly.yml`](.github/workflows/weekly.yml) runs at 09:05 ET every Tuesday:
+[`.github/workflows/weekly.yml`](.github/workflows/weekly.yml) runs at 05:05 ET every Tuesday, with retries at 07:05 and 10:05:
 find the newest finished week, fetch headshots, build the page, commit it to `weeks/`. The push
 triggers the Vercel deploy, so there is no deploy hook or token to keep in sync. It reads the
 league from `league.json`; set a repository variable `LEAGUE_ID` to override it when the season
